@@ -4,12 +4,12 @@ package com.ds.snackapp.controller;
 
 import java.util.List;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.dto.LoginDTO;
@@ -84,6 +84,22 @@ public class RegisterController {
 			model.setViewName("Loginform.jsp");
 			return model;
 		}
+	}
+	@GetMapping("/makeadmin")
+	public ModelAndView makeAdmin(@RequestParam("id") int userid)
+	{
+		String ans = service.promoteAdmin(userid);
+		
+		return new ModelAndView("redirect:/allemployees");
+		
+	}
+	@GetMapping("/removeadmin")
+	public ModelAndView removeAdmin(@RequestParam("id") int userid)
+	{
+		String ans = service.depromoteAdmin(userid);
+		
+		return new ModelAndView("redirect:/allemployees");
+		
 	}
 
 }

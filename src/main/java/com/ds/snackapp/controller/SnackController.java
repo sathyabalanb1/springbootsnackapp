@@ -1,5 +1,6 @@
 package com.ds.snackapp.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,17 @@ public class SnackController {
 	private SnackService snackservice;
 	
 	@PostMapping("/addsnack")
-	public ModelAndView addSnack(Snack snack)
+	public ModelAndView addSnack(Snack snack )
 	{
-		
+				
 		snackservice.createSnack(snack);
 		
 		return new ModelAndView("redirect:/snacks");
 	}
 	@GetMapping("/snacks")
-	public String fetchAllSnacks(Model model)
+	public String fetchAllSnacks(Model model,Principal principal)	
 	{
+		//System.out.println(principal.get);
 		List<Snack>snacks = snackservice.getSnacks();
 		model.addAttribute("availablesnacks",snacks);
 	//	model.put("snacklist",snacklist);

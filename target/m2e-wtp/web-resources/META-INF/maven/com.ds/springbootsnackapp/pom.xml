@@ -105,8 +105,19 @@
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-devtools</artifactId>
-    <version>2.7.13</version>
 </dependency>
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!--      WebsecurityAdapter depreacted error gone below jar using-->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.6.5</version>
+		</dependency>
+
 
 
 

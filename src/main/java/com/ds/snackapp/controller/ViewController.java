@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.entity.Vendor;
 import com.ds.snackapp.service.SnackService;
 import com.ds.snackapp.service.VendorService;
 import com.ds.snackapp.service.AssignmentService;
+import com.ds.snackapp.service.DsuserService;
 
 
 @Controller
@@ -24,7 +26,9 @@ public class ViewController {
 	@Autowired
 	private VendorService vendorservice;
 	@Autowired
-	private AssignmentService assignmentservice;
+	private AssignmentService assignmentservice;	
+	@Autowired
+	private DsuserService userservice;
 
 	@GetMapping("/registerform")
 	private String showRegisterForm() {
@@ -125,6 +129,31 @@ public class ViewController {
 		model.addAttribute("vendorlist",vns);
 		model.addAttribute("assignmentid", assignmentid);
 		return "snackassignment/Updatesnackassignmentform.jsp";
+	}
+	@GetMapping("/all")
+	public String home()
+	{
+		return ("<h1>Welcome Home</h1>");
+	}
+	@GetMapping("/user")
+	public String user()
+	{
+		return ("<h1>Welcome User</h1>");
+	}
+	@GetMapping("/admin")
+	public String admin()
+	{
+		return ("<h1>Welcome Admin</h1>");
+	}
+	@GetMapping("/allemployees")
+	public String fetchAllEmployees(Model model)
+	{
+		List<Dsusers>users = userservice.getAllEmployees();
+		
+		model.addAttribute("allemployees",users);
+		
+		return "employees/Allemployees.jsp";
+		
 	}
 
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ds.snackapp.dto.LoginDTO;
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Role;
+import com.ds.snackapp.generic.CommonFunctions;
 import com.ds.snackapp.repository.DsuserRepository;
 import com.ds.snackapp.repository.RoleRepository;
 
@@ -17,6 +18,8 @@ public class DsuserService {
 	private DsuserRepository repository;
 	@Autowired
 	private RoleRepository rolerepository;
+	@Autowired
+	private CommonFunctions common;
 /*	
 	public Dsusers createDsuser(Dsusers dsuser) {
 		Role role = rolerepository.findByRolename("User").get(0);
@@ -86,7 +89,7 @@ public class DsuserService {
 		} else if (dsuser.get(0).getEmail().equals(logincredentials.getEmail()) 
 				&& dsuser.get(0).getPassword().equals(logincredentials.getPassword())) {
 			
-			//common.createSession(dsuser);
+			common.createSession(dsuser);
 			
 
 			return true;
@@ -94,5 +97,39 @@ public class DsuserService {
 		}
 		return false;
 	}
+	
+	public List<Dsusers> getAllEmployees()
+	{
+		List<Dsusers>users = repository.findAll();
+		
+		return users;
+	}
+	
+	public String promoteAdmin(int userid)
+	{
+		Dsusers user = repository.findById(userid).orElse(null);
+		
+		Role role = rolerepository.findByRolename("Admin").get(0);
+		
+		user.setRoleid(role);
+		
+		repository.save(user);
+
+		return "Role is Updated Successfully";
+	}
+	
+	public String depromoteAdmin(int userid)
+	{
+		Dsusers user = repository.findById(userid).orElse(null);
+		
+		Role role = rolerepository.findByRolename("User").get(0);
+		
+		user.setRoleid(role);
+		
+		repository.save(user);
+
+		return "Role is Updated Successfully";
+	}
+	
 
 }

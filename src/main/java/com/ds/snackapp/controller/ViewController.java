@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.entity.Vendor;
-import com.ds.snackapp.service.SnackService;
-import com.ds.snackapp.service.VendorService;
 import com.ds.snackapp.service.AssignmentService;
 import com.ds.snackapp.service.DsuserService;
+import com.ds.snackapp.service.SnackService;
+import com.ds.snackapp.service.VendorService;
 
 
 @Controller
@@ -29,6 +30,12 @@ public class ViewController {
 	private AssignmentService assignmentservice;	
 	@Autowired
 	private DsuserService userservice;
+	
+	@GetMapping("/appfront")
+	private String showFrontpage()
+	{
+		return "Appfrontpage.jsp";
+	}
 
 	@GetMapping("/registerform")
 	private String showRegisterForm() {
@@ -38,21 +45,21 @@ public class ViewController {
 		return "Dsuserregister.jsp";
 	}
 
-	@GetMapping("/loginform")
+	@GetMapping("/signin")
 	private String showLoginForm() {
 
 		return "Loginform.jsp";
 	}
 
-	@GetMapping("/homepage")
+	@GetMapping("/user/homepage")
 	private String showHomePage() {
 
-		return "index.html";
+		return "Userhomepage.jsp";
 	}
 
 	@GetMapping("/addsnackform")
 	private String showSnackInsertForm() {
-		return "snack/Snackinsertform.jsp";
+		return "/snack/Snackinsertform.jsp";
 	}
 
 	@GetMapping("/snackupdateform")
@@ -131,16 +138,19 @@ public class ViewController {
 		return "snackassignment/Updatesnackassignmentform.jsp";
 	}
 	@GetMapping("/all")
+	@ResponseBody
 	public String home()
 	{
 		return ("<h1>Welcome Home</h1>");
 	}
 	@GetMapping("/user")
+	@ResponseBody
 	public String user()
 	{
 		return ("<h1>Welcome User</h1>");
 	}
 	@GetMapping("/admin")
+	@ResponseBody
 	public String admin()
 	{
 		return ("<h1>Welcome Admin</h1>");
@@ -150,11 +160,49 @@ public class ViewController {
 	{
 		List<Dsusers>users = userservice.getAllEmployees();
 		
+		
 		model.addAttribute("allemployees",users);
 		
 		return "employees/Allemployees.jsp";
 		
 	}
-
+	
+	@GetMapping("/snackselectionform")
+	private ModelAndView showSnackSelectionForm(ModelAndView model) {
+		
+	List<Assignment>ass=assignmentservice.getAssignmentDetails();
+	
+	String assigneddate = ass.get(0).getAssigneddate();
+	
+	String snackname = ass.get(0).getSnack().getSnackname();
+	
+	String vendorname = ass.get(0).getVendor().getVendorname();
+	
+	model.addObject("assigneddate", assigneddate);
+	model.addObject("snackname", snackname);
+	model.addObject("vendorname", vendorname);
+	model.setViewName("snackselection/Snackselectionform.jsp");
+	
+	return model;
+				
+	}
+	
+	@GetMapping("/adminhomepage")
+	public String showAdminHomepage()
+	{
+		return "Adminhomepage.jsp";
+	}
+	
+	@GetMapping("/invalid")
+	public String invalid()
+	{
+		return "Error.jsp";
+	}
+	
+	@GetMapping("/logoutpage")
+	public String logoutPage() {
+		return "authentication/logoutpage.jsp";
+}
+	
 
 }

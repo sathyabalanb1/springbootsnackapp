@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.entity.Vendor;
 import com.ds.snackapp.service.VendorService;
 

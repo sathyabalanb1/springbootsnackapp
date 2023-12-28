@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.ds.snackapp.dto.LoginDTO;
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Role;
-import com.ds.snackapp.generic.CommonFunctions;
 import com.ds.snackapp.repository.DsuserRepository;
 import com.ds.snackapp.repository.RoleRepository;
 
@@ -18,8 +17,8 @@ public class DsuserService {
 	private DsuserRepository repository;
 	@Autowired
 	private RoleRepository rolerepository;
-	@Autowired
-	private CommonFunctions common;
+	//@Autowired
+//	private CommonFunctions common;
 /*	
 	public Dsusers createDsuser(Dsusers dsuser) {
 		Role role = rolerepository.findByRolename("User").get(0);
@@ -37,24 +36,19 @@ public class DsuserService {
 		return repository.save(dsuser);
 	}
 */	
-	public String createDsuser(Dsusers dsuser) {
-		Role role = rolerepository.findByRolename("User").get(0);
-		dsuser.setRoleid(role);
-		
-		String inputemail = dsuser.getEmail();
-		List<Dsusers> existinguser = repository.findByEmail(inputemail);
-		
-		
-		if (existinguser.size() > 0) {
-			return null;
-		}
-		else
-		{
-			repository.save(dsuser);
-			return "User Registered Successfully";
-		}
-
-	}
+/*
+ * public String createDsuser(Dsusers dsuser) { Role role =
+ * rolerepository.findByRolename("User").get(0); dsuser.setRoleid(role);
+ * 
+ * String inputemail = dsuser.getEmail(); List<Dsusers> existinguser =
+ * repository.findByEmail(inputemail);
+ * 
+ * 
+ * if (existinguser.size() > 0) { return null; } else { repository.save(dsuser);
+ * return "User Registered Successfully"; }
+ * 
+ * }
+ */
 
 	public Dsusers getDsuserById(int id) {
 		return repository.findById(id).orElse(null);
@@ -75,13 +69,13 @@ public class DsuserService {
 
 	}
 	*/
-	public List<Dsusers> checkUserCredentials(LoginDTO logincredentials) {
-		// Dsusers dsuser = repository.findByEmail(logincredentials.getEmail()).get(0);
-		List<Dsusers> dsuser = repository.findByEmail(logincredentials.getEmail());
-		
-		return dsuser;
+//	public List<Dsusers> checkUserCredentials(LoginDTO logincredentials) {
+//		// Dsusers dsuser = repository.findByEmail(logincredentials.getEmail()).get(0);
+//		Dsusers dsuser = repository.findByEmail(logincredentials.getEmail());
+//		
+//		return dsuser;
 
-	}
+	
 	public boolean isAuthorizedUser(List<Dsusers>dsuser,LoginDTO logincredentials)
 	{
 		if (dsuser.size() == 0) {
@@ -89,7 +83,7 @@ public class DsuserService {
 		} else if (dsuser.get(0).getEmail().equals(logincredentials.getEmail()) 
 				&& dsuser.get(0).getPassword().equals(logincredentials.getPassword())) {
 			
-			common.createSession(dsuser);
+		//	common.createSession(dsuser);
 			
 
 			return true;

@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.entity.Vendor;
@@ -30,52 +29,27 @@ public class ViewController {
 	private AssignmentService assignmentservice;	
 	@Autowired
 	private DsuserService userservice;
-	
-	@GetMapping("/appfront")
-	private String showFrontpage()
-	{
-		return "Appfrontpage.jsp";
-	}
+		
 
-	@GetMapping("/registerform")
-	private String showRegisterForm() {
-		// TODO Auto-generated method stub
-		//return "hi";
-	//	return "demo.jsp";
-		return "Dsuserregister.jsp";
-	}
-
-	@GetMapping("/signin")
-	private String showLoginForm() {
-
-		return "Loginform.jsp";
-	}
-
-	@GetMapping("/user/homepage")
-	private String showHomePage() {
-
-		return "Userhomepage.jsp";
-	}
-
-	@GetMapping("/addsnackform")
+	@GetMapping("/admin/addsnackform")
 	private String showSnackInsertForm() {
 		return "/snack/Snackinsertform.jsp";
 	}
 
-	@GetMapping("/snackupdateform")
+	@GetMapping("/admin/snackupdateform")
 	public ModelAndView showUpdateSnackForm(@RequestParam("id") int snackid, ModelAndView model) {
 
 		Snack existingsnack = snackservice.getSnackById(snackid);
 		model.addObject("existingsnackid",existingsnack.getId());
 		model.addObject("existingsnack",existingsnack.getSnackname());
-		model.setViewName("snack/Updateform.jsp") ;		 
+		model.setViewName("/snack/Updateform.jsp") ;		 
 
 		return model;
 	}
-	@GetMapping("/vendorinsertform")
+	@GetMapping("/admin/vendorinsertform")
 	private String showVendorInsertForm() {
 		
-		return "vendor/Vendorinsertform.jsp";
+		return "/vendor/Vendorinsertform.jsp";
 	}
 
 	//	@GetMapping("/snackupdateform/{sid}/")
@@ -83,7 +57,7 @@ public class ViewController {
 
 	// 		 href="/snackupdateform/${temp.id}"
 	
-	@GetMapping("/updatevendorform")
+	@GetMapping("/admin/updatevendorform")
 //	@GetMapping("/{vid}")
 //	public ModelAndView showVendorUpdateForm(@PathVariable("vid") int vid,String number,String name, ModelAndView model)
 	public ModelAndView showVendorUpdateForm(@RequestParam("vid") int vendorid,ModelAndView model)
@@ -102,7 +76,7 @@ public class ViewController {
 		model.addObject("existingemail",existingvendor.getEmail());
 
 
-		model.setViewName("vendor/Vendorupdateform.jsp");
+		model.setViewName("/vendor/Vendorupdateform.jsp");
 		
 		return model;
 
@@ -115,13 +89,13 @@ public class ViewController {
 		return "vendor/Vendorupdateform.jsp";
 	}
 	*/
-	@GetMapping("/snackassignmentform")
+	@GetMapping("/admin/snackassignmentform")
 	private ModelAndView showAssignmentForm(ModelAndView model) {
 		List<Snack>sns = snackservice.getSnacks();
 		List<Vendor>vns = vendorservice.getVendors();
 		model.addObject("snacklist", sns);
 		model.addObject("vendorlist", vns);
-		model.setViewName("snackassignment/Snackassignmentform.jsp");
+		model.setViewName("/snackassignment/Snackassignmentform.jsp");
 
 		return model;
 	}
@@ -137,24 +111,7 @@ public class ViewController {
 		model.addAttribute("assignmentid", assignmentid);
 		return "snackassignment/Updatesnackassignmentform.jsp";
 	}
-	@GetMapping("/all")
-	@ResponseBody
-	public String home()
-	{
-		return ("<h1>Welcome Home</h1>");
-	}
-	@GetMapping("/user")
-	@ResponseBody
-	public String user()
-	{
-		return ("<h1>Welcome User</h1>");
-	}
-	@GetMapping("/admin")
-	@ResponseBody
-	public String admin()
-	{
-		return ("<h1>Welcome Admin</h1>");
-	}
+	
 	@GetMapping("/allemployees")
 	public String fetchAllEmployees(Model model)
 	{
@@ -166,43 +123,13 @@ public class ViewController {
 		return "employees/Allemployees.jsp";
 		
 	}
-	
-	@GetMapping("/snackselectionform")
-	private ModelAndView showSnackSelectionForm(ModelAndView model) {
 		
-	List<Assignment>ass=assignmentservice.getAssignmentDetails();
-	
-	String assigneddate = ass.get(0).getAssigneddate();
-	
-	String snackname = ass.get(0).getSnack().getSnackname();
-	
-	String vendorname = ass.get(0).getVendor().getVendorname();
-	
-	model.addObject("assigneddate", assigneddate);
-	model.addObject("snackname", snackname);
-	model.addObject("vendorname", vendorname);
-	model.setViewName("snackselection/Snackselectionform.jsp");
-	
-	return model;
-				
-	}
-	
 	@GetMapping("/adminhomepage")
 	public String showAdminHomepage()
 	{
 		return "Adminhomepage.jsp";
-	}
+	}	
 	
-	@GetMapping("/invalid")
-	public String invalid()
-	{
-		return "Error.jsp";
-	}
-	
-	@GetMapping("/logoutpage")
-	public String logoutPage() {
-		return "authentication/logoutpage.jsp";
-}
 	
 
 }

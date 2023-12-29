@@ -20,47 +20,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SpringConfig extends WebSecurityConfigurerAdapter{
 
-	/*
-	  
-	@Bean
-	public DaoAuthenticationProvider getAuthenticationProvider() {
-		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		daoAuthenticationProvider.setUserDetailsService(getDetailsService());
-		daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
-		return daoAuthenticationProvider;
-	}
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		  http.csrf().disable()
-	        .authorizeRequests()
-	           .antMatchers("/signin","/logout").permitAll()	           
-	            .antMatchers("/user/**").hasAuthority("User")
-	            .antMatchers("/admin/**").hasAnyAuthority("SuperAdmin")
-	            .anyRequest().authenticated()
-	        .and()
-	        .formLogin()
-	            .loginPage("/signin")
-	            .loginProcessingUrl("/login")
-	            .successHandler((request, response, authentication) -> {
-	                for (GrantedAuthority authority : authentication.getAuthorities()) {
-	                    if (authority.getAuthority().equals("SuperAdmin")) {
-	                        response.sendRedirect("/admin/adminhomepage");
-	                        return;
-	                    }
-	                }
-	                response.sendRedirect("/user/homepage");
-	            })
-	            .permitAll()
-	        .and()
-	        .logout()
-	            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-	            .logoutSuccessUrl("/logout-page")
-	            .invalidateHttpSession(true)
-	            .clearAuthentication(true)
-	            .permitAll();
-	}
-*/
 	@Autowired
 	UserDetailService userDetailService;
 	
@@ -85,7 +44,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 		return NoOpPasswordEncoder.getInstance();
 	}
 	
-	/*  Works fine
+	/*  Works fine login and logout
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
@@ -101,12 +60,13 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 	}
 	*/
 	
+	/* Works fine role based authentication
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 		.authorizeHttpRequests().antMatchers("/").permitAll()
-		.antMatchers("/addsnackform").hasAuthority("SuperAdmin")
-		.antMatchers("/user/**").hasAnyAuthority("SuperAdmin","User")
+		.antMatchers("/admin/**").hasAuthority("SuperAdmin")
+		.antMatchers("/common/**").hasAnyAuthority("SuperAdmin", "User")
 		.anyRequest().authenticated()
 				.and().formLogin().loginPage("/signin")
 				.loginProcessingUrl("/login")
@@ -116,6 +76,36 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 				.logout().logoutSuccessUrl("/logoutpage")				
 				.permitAll();
 	}
+	*/
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable()
+		.authorizeHttpRequests().antMatchers("/").permitAll()
+		.antMatchers("/admin/**").hasAuthority("SuperAdmin")
+		.antMatchers("/common/**").hasAnyAuthority("SuperAdmin", "User")
+		.anyRequest().authenticated()
+				.and().formLogin().loginPage("/signin")
+				.loginProcessingUrl("/login")
+				.successHandler((request, response, authentication) -> {
+	                for (GrantedAuthority authority : authentication.getAuthorities()) {
+	                    if (authority.getAuthority().equals("SuperAdmin")) {
+	                        response.sendRedirect("/admin/snackassignmentform");
+	                        return;
+	                    }
+	                    else if (authority.getAuthority().equals("Admin")) {
+	                        response.sendRedirect("/admin/snackassignmentform");
+	                        return;
+	                    }
+	                }
+	                response.sendRedirect("/userhomepage");
+	            })
+				.permitAll()
+				//.failureUrl("/invalid").permitAll()
+				.and()
+				.logout().logoutSuccessUrl("/logoutpage")
+	            .invalidateHttpSession(true)
+	            .clearAuthentication(true)
+				.permitAll();
+	}
 	
-
 }

@@ -26,13 +26,13 @@ public class VendorController {
 		
 		return "vendor/Vendorinsertform.jsp";
 	}
-	@GetMapping("/vendors")
+	@GetMapping("/admin/vendors")
 	public String fetchAllVendors(Model model)
 	{
 		List<Vendor>vns = vendorservice.getVendors();
 		model.addAttribute("vendors",vns);
 		
-		return "vendor/Vendorlist.jsp";
+		return "/vendor/Vendorlist.jsp";
 		
 	}
 	@PostMapping("/updatevendor")
@@ -45,7 +45,7 @@ public class VendorController {
 		return new ModelAndView("redirect:/vendors");
 				
 	}
-	@GetMapping("/deletevendor")
+	@GetMapping("/admin/deletevendor")
 	public ModelAndView removeVendor(@RequestParam("vid") int vendorid) {
 		 
 			vendorservice.deleteVendor(vendorid);

@@ -27,7 +27,7 @@ public class SnackController {
 		
 		return new ModelAndView("redirect:/snacks");
 	}
-	@GetMapping("/snacks")
+	@GetMapping("/admin/snacks")
 	public String fetchAllSnacks(Model model,Principal principal)	
 	{
 		//System.out.println(principal.get);
@@ -36,7 +36,7 @@ public class SnackController {
 	//	model.put("snacklist",snacklist);
 	//	return "Snacklist.jsp";
 		
-		return "snack/Availablesnacks.jsp";
+		return "/snack/Availablesnacks.jsp";
 	}
 /*	
 	@GetMapping("/editsnack/{id}")
@@ -69,7 +69,7 @@ public class SnackController {
 				
 	}
 	
-	@GetMapping("/deletesnack")
+	@GetMapping("/admin/deletesnack")
 	public ModelAndView deleteProduct(@RequestParam("id") int snackid) {
 		 
 			snackservice.deleteSnack(snackid);

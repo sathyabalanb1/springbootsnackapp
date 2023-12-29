@@ -33,9 +33,9 @@
 <td>${vendorentry.landlinenumber}</td>
 <td>${vendorentry.email}</td>
 <!-- <td><a href="/${vendorentry.id}/54/skabsk">Edit</a></td> -->
-<td><a href="/updatevendorform?vid=${vendorentry.id}">Edit</a></td>
+<td><a href="/admin/updatevendorform?vid=${vendorentry.id}">Edit</a></td>
 
-<td><a href="/deletevendor?vid=${vendorentry.id}" onclick="return confirm('Are you sure to delete this Vendor?')">Delete</a></td>
+<td><a href="/admin/deletevendor?vid=${vendorentry.id}" onclick="return confirm('Are you sure to delete this Vendor?')">Delete</a></td>
 </tr>
 </c:forEach>
 </tbody>

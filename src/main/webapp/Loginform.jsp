@@ -17,7 +17,7 @@
 <c:if test="${param.error!=null}">
 <p style="color:red;">Username or Password May be Incorrect</p>
 </c:if>
-<%@include file="index.html"%>
+<%@include file="../index.html"%>
 
 <%-- <c:if test="${param.error != null}">
    <div class="alert alert-danger">

@@ -26,8 +26,8 @@
 				<tr>
 					<td>${loop.index+1}</td>
 					<td>${temp.snackname}</td>
-					<td><a href="/snackupdateform?id=${temp.id}">Edit</a></td>		
-					<td><a href="/deletesnack?id=${temp.id}" onclick="return confirm('Are you sure to delete?')">Delete</a></td>
+					<td><a href="/admin/snackupdateform?id=${temp.id}">Edit</a></td>		
+					<td><a href="/admin/deletesnack?id=${temp.id}" onclick="return confirm('Are you sure to delete?')">Delete</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

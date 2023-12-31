@@ -7,6 +7,7 @@
 <title>App Front Page</title>
 </head>
 <body>
+<%@include file="./headerfooter/header.jsp"%>
 <h3>Welcome to DiligentSquad Snack Site</h3>
 </body>
 </html>

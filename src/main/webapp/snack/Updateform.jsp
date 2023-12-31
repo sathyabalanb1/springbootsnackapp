@@ -7,7 +7,7 @@
 <title>Snackupdate Form</title>
 </head>
 <body>
-<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 
 <form   action="/updatesnack" id="snackinsertform" method="post">
 		<table>			

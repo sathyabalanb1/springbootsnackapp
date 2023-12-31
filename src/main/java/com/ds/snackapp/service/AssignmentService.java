@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ds.snackapp.dto.AssignmentDTO;
 import com.ds.snackapp.entity.Assignment;
+import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.repository.AssignmentRepository;
 import com.ds.snackapp.repository.SnackRepository;
 import com.ds.snackapp.repository.VendorRepository;
@@ -108,6 +109,13 @@ public class AssignmentService {
 
 		List<Assignment> assments = assignmentrepository.findByAssigneddate(modifiedDate);
 		return assments;
+	}
+	
+	public Assignment getAssignedSnack(int snackid)
+	{
+		Snack sn = snackrepository.getById(snackid);
+		
+		return assignmentrepository.findBySnack(sn);
 	}
 
 }

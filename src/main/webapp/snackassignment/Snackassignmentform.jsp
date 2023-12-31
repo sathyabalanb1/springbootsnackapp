@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>SnackAssignment</title>
 </head>
-<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 
 <body>
 	<c:choose>

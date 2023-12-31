@@ -1,5 +1,6 @@
 package com.ds.snackapp.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,5 +110,15 @@ public class AssignmentController {
 			return new ModelAndView("redirect:/assignments");
 		
 	}
+	@GetMapping("/name")
+	public String userName(Principal principal) {
+		 
+		System.out.println(principal.getName());
+		
+		
+			return "done";
+		
+	}
+	
 	
 }

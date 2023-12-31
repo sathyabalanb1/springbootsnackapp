@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>UpdateAssignment</title>
 </head>
-<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 
 <body>
 	<form action="/updateassignment" id="updatesnackassignmentform" method="get">

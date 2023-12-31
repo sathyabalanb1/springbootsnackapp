@@ -8,9 +8,19 @@
 <meta charset="UTF-8">
 <title>Snack List</title>
 </head>
-<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 
 <body>
+<c:choose>
+		<c:when test="${deleteinfo == true}">
+			<p class="text-success">Snack is Removed Successfully</p>
+		</c:when>
+		<c:when test="${deleteinfo == false}">
+			<p class="text-success">Assigned Snack Cannot Be Removed</p>
+		</c:when>
+		<c:otherwise>
+        </c:otherwise>
+	</c:choose>
 <table border="1">
 		<caption>Snacks List</caption>
 		<thead>

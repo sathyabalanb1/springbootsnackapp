@@ -7,7 +7,7 @@
 <title>Snack Selection Form</title>
 </head>
 <body>
-<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 
 	<form>
 		<table>

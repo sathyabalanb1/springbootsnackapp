@@ -7,6 +7,8 @@
 <title>Vendor Update Form</title>
 </head>
 <body>
+<%@include file="../headerfooter/header.jsp"%>
+
 <form   action="/updatevendor" id="vendorinsertform" method="post">
 		<table>			
 			<tr>				

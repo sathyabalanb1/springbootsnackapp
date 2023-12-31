@@ -10,10 +10,11 @@
 </head>
 
 <body>
-<%@include file="index.html"%>
+<%@include file="index.jsp"%>
 <c:if test="${info == true}">
 <p>You have successfully registered</p>
 </c:if>
+<%@include file="./headerfooter/header.jsp"%>
 
 	<form name="myForm" id="myForm" action="/addDsuser" method="post">
 		<table>

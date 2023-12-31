@@ -10,6 +10,8 @@
 <title>Login Form</title>
 </head>
 <body>
+<%@include file="./headerfooter/header.jsp"%>
+
 <!--<c:if test="${validuser==true}"><p>You have successfully logged in</p></c:if> -->
 
 <c:if test="${info==false}"><p style="color:red;">Invalid Login Credentials</p></c:if>
@@ -17,7 +19,6 @@
 <c:if test="${param.error!=null}">
 <p style="color:red;">Username or Password May be Incorrect</p>
 </c:if>
-<%@include file="../index.html"%>
 
 <%-- <c:if test="${param.error != null}">
    <div class="alert alert-danger">

@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Vendor List</title>
 </head>
-<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 <body>
 <table border="1">
 <thead>

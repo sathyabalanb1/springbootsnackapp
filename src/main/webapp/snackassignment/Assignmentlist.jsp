@@ -10,7 +10,7 @@
 </head>
 <body>
 <!-- ${assignments} -->  
-	<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 <table border="1">
 		<caption>Snack Assignment List</caption>
 		<thead>

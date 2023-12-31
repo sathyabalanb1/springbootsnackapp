@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.service.SnackService;
+import com.ds.snackapp.service.AssignmentService;
+
 
 @Controller
 public class SnackController {
 	@Autowired
 	private SnackService snackservice;
+	
+	@Autowired
+	private AssignmentService assignservice;
 	
 	@PostMapping("/addsnack")
 	public ModelAndView addSnack(Snack snack )
@@ -25,19 +31,34 @@ public class SnackController {
 				
 		snackservice.createSnack(snack);
 		
-		return new ModelAndView("redirect:/snacks");
+		return new ModelAndView("redirect:/admin/snacks");
 	}
+	/*
 	@GetMapping("/admin/snacks")
 	public String fetchAllSnacks(Model model,Principal principal)	
 	{
 		//System.out.println(principal.get);
 		List<Snack>snacks = snackservice.getSnacks();
 		model.addAttribute("availablesnacks",snacks);
+		
 	//	model.put("snacklist",snacklist);
 	//	return "Snacklist.jsp";
 		
 		return "/snack/Availablesnacks.jsp";
 	}
+	*/
+	
+	@GetMapping("/admin/snacks")
+	public String fetchAllSnacks(@RequestParam(required=false) boolean snackdelete, Model model)	
+	{
+		List<Snack>snacks = snackservice.getSnacks();
+		model.addAttribute("availablesnacks",snacks);
+		
+		model.addAttribute("deleteinfo",snackdelete);
+				
+		return "/snack/Availablesnacks.jsp";
+	}
+	
 /*	
 	@GetMapping("/editsnack/{id}")
 	public String editSnack(int id, Model model)
@@ -65,16 +86,24 @@ public class SnackController {
 	//	model.setViewName("Snacklist.jsp");
 	//	return "Snacklist.jsp";
 		
-		return new ModelAndView("redirect:/snacks");
+		return new ModelAndView("redirect:/admin/snacks");
 				
 	}
 	
 	@GetMapping("/admin/deletesnack")
 	public ModelAndView deleteProduct(@RequestParam("id") int snackid) {
+		
+			Assignment ass = assignservice.getAssignedSnack(snackid);
 		 
-			snackservice.deleteSnack(snackid);
-		 
-			return new ModelAndView("redirect:/snacks");		
-	}
+			if(ass != null)
+			{
+			   return new ModelAndView("redirect:/admin/snacks?snackdelete=false");
+			}
+			else
+			{
+				snackservice.deleteSnack(snackid);
 
+				return new ModelAndView("redirect:/admin/snacks?snackdelete=true");
+	        }
+	}
 }

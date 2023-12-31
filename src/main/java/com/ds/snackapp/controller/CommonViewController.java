@@ -1,5 +1,6 @@
 package com.ds.snackapp.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class CommonViewController {
 	private AssignmentService assignmentservice;
 	
 	@GetMapping("/common/snackselectionform")
-	private ModelAndView showSnackSelectionForm(ModelAndView model) {
-		
+	private ModelAndView showSnackSelectionForm(ModelAndView model,Principal principal) {
+		System.out.println(principal.getName());
 	List<Assignment>ass = assignmentservice.getAssignmentDetails();
 	
 	String assigneddate = ass.get(0).getAssigneddate();
@@ -56,7 +57,7 @@ public class CommonViewController {
 		return "Error.jsp";
 	}
 	
-	@GetMapping("/appfront")
+	@GetMapping("/")
 	private String showFrontpage()
 	{
 		return "Appfrontpage.jsp";

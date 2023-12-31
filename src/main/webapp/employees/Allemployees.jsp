@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%@include file="../index.html"%>
+<%@include file="../headerfooter/header.jsp"%>
 
 
 <table border="1">

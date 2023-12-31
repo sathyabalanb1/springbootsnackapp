@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>User Homepage</title>
+<title></title>
 </head>
 <body>
-<%@include file="./headerfooter/header.jsp"%>
-<p>This is User Homepage</p>
+<p>Copyright 2024 reserved by DiligentSquad Technologies Private Limited</p>
 </body>
 </html>

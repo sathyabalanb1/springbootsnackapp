@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.entity.Vendor;
@@ -91,6 +91,19 @@ public class ViewController {
 	*/
 	@GetMapping("/admin/snackassignmentform")
 	private ModelAndView showAssignmentForm(ModelAndView model) {
+		
+		List<Assignment> a = assignmentservice.getAssignmentDetails();
+		
+		if(a.size()>0)
+		{
+			return new ModelAndView("redirect:/adminhomepage");
+
+		}
+		else
+		{
+			model.addObject("noassignment","Today's Snack is not yet Assigned");
+		}
+		
 		List<Snack>sns = snackservice.getSnacks();
 		List<Vendor>vns = vendorservice.getVendors();
 		model.addObject("snacklist", sns);

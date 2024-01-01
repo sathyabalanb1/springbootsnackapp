@@ -21,6 +21,9 @@
 			<p class="text-danger">Already Snack is Assigned for Today</p>
 		</c:when>
 	</c:choose>
+	<c:if test="${noassignment != null }">
+<p>Today's Snack is Not Yet Assigned</p>
+</c:if>
 	<form action="/addassignment" id="snackassignmentform" method="post">
 		<table>
 			<tr>

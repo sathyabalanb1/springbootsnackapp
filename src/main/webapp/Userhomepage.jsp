@@ -8,6 +8,11 @@
 </head>
 <body>
 <%@include file="./headerfooter/header.jsp"%>
+<c:if test="${noassignment != null}">
+<p>Dear User</p><br>
+<p>${noassignment}</p>
+</c:if>
+
 <p>This is User Homepage</p>
 </body>
 </html>

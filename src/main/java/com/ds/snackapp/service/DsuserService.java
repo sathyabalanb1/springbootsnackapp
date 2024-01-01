@@ -125,5 +125,13 @@ public class DsuserService {
 		return "Role is Updated Successfully";
 	}
 	
+	public Dsusers fetchUserDetails(String username)
+	{
+		Dsusers dsu = repository.findByEmail(username);
+		
+		return dsu;
+		
+	}
+	
 
 }

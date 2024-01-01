@@ -114,7 +114,7 @@ public class AssignmentController {
 	public String userName(Principal principal) {
 		 
 		System.out.println(principal.getName());
-		
+		System.out.println("abcdefghijklms");
 		
 			return "done";
 		

@@ -6,21 +6,34 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Assignment;
+import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.service.AssignmentService;
+import com.ds.snackapp.service.DsuserService;
+
 
 @Controller
 public class CommonViewController {
 	@Autowired
 	private AssignmentService assignmentservice;
 	
+	@Autowired
+	private DsuserService dsuserservice;
+	
 	@GetMapping("/common/snackselectionform")
 	private ModelAndView showSnackSelectionForm(ModelAndView model,Principal principal) {
-		System.out.println(principal.getName());
+	
+	String username = principal.getName();
+	
+	Dsusers dsu = dsuserservice.fetchUserDetails(username);
+	
+	int userid = dsu.getId();
+	
 	List<Assignment>ass = assignmentservice.getAssignmentDetails();
+	
+	int assignmentid = ass.get(0).getId();
 	
 	String assigneddate = ass.get(0).getAssigneddate();
 	
@@ -31,6 +44,8 @@ public class CommonViewController {
 	model.addObject("assigneddate", assigneddate);
 	model.addObject("snackname", snackname);
 	model.addObject("vendorname", vendorname);
+	model.addObject("userid", userid);
+	model.addObject("assignmentid", assignmentid);
 	model.setViewName("/snackselection/Snackselectionform.jsp");
 	
 	return model;
@@ -64,9 +79,23 @@ public class CommonViewController {
 	}
 	
 	@GetMapping("/userhomepage")
-	private String showHomePage() {
+	private ModelAndView showHomePage() {
+		List<Assignment> a = assignmentservice.getAssignmentDetails();
+		
+		ModelAndView model = new ModelAndView();		
+		
+		if(a.size()>0)
+		{
+			return new ModelAndView("redirect:/common/snackselectionform");
 
-		return "Userhomepage.jsp";
+		}
+		else
+		{
+			model.addObject("noassignment","Today's Snack is not yet Assigned");
+			model.setViewName("Userhomepage.jsp");
+			return model;
+		}
+		
 	}	
 	
 	@GetMapping("/logoutpage")

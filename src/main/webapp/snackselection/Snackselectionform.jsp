@@ -9,7 +9,7 @@
 <body>
 <%@include file="../headerfooter/header.jsp"%>
 
-	<form>
+	<form action="/insertselection" method="post">
 		<table>
 			<caption>Snack Selection Form</caption>
 			<tr>
@@ -34,10 +34,16 @@
 				<br>
 			</tr>
 			<tr>
-				<td><input type="radio" name="yes_no" checked>Yes</input></td>
+				<td><input type="radio" name="isselected" value="True">Yes</input></td>
 			</tr>
 			<tr>
-				<td><input type="radio" name="yes_no">No</input></td>
+				<td><input type="radio" name="isselected" value="False">No</input></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" name="dsuser" value="${userid}"></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" name="assignment" value="${assignmentid}"></td>
 			</tr>
 			<tr>
 				<td>Submit</td>

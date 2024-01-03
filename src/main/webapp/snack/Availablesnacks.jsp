@@ -43,6 +43,7 @@
 		</tbody>
 		
 </table>
+<%@include file="./headerfooter/footer.jsp"%>
 
 </body>
 </html>

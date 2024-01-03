@@ -34,10 +34,10 @@
 				<br>
 			</tr>
 			<tr>
-				<td><input type="radio" name="isselected" value="True">Yes</input></td>
+				<td><input type="radio" name="enabled" value="True">Yes</input></td>
 			</tr>
 			<tr>
-				<td><input type="radio" name="isselected" value="False">No</input></td>
+				<td><input type="radio" name="enabled" value="False">No</input></td>
 			</tr>
 			<tr>
 				<td><input type="hidden" name="dsuser" value="${userid}"></td>

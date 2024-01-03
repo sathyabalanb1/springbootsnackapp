@@ -30,8 +30,8 @@ public class Selection {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Dsusers dsuser;
 	
-	@Column(name = "isselected", nullable = false, columnDefinition = "boolean default true")
-	private boolean enabled = true;
+	@Column(name = "isselected", nullable = false,columnDefinition = "boolean default true")
+	private boolean enabled;
 	
 	@CreationTimestamp
 	@Column(columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP ")

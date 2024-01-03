@@ -96,7 +96,7 @@ public class ViewController {
 		
 		if(a.size()>0)
 		{
-			return new ModelAndView("redirect:/adminhomepage");
+			return new ModelAndView("redirect:/admin/adminhomepage");
 
 		}
 		else
@@ -137,12 +137,11 @@ public class ViewController {
 		
 	}
 		
-	@GetMapping("/adminhomepage")
+	@GetMapping("/admin/adminhomepage")
 	public String showAdminHomepage()
 	{
-		return "Adminhomepage.jsp";
+		return "/Adminhomepage.jsp";
 	}	
-	
-	
+		
 
 }

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@include file="./headerfooter/header.jsp"%>
 <meta charset="UTF-8">
 <title>Admin Home Page</title>
 </head>

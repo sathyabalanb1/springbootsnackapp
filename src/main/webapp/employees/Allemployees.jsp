@@ -41,6 +41,7 @@
 </tr>
 </c:forEach>
 </tbody>
+<%@include file="../headerfooter/footer.jsp"%>
 
 </table>
 

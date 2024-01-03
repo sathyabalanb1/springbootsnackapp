@@ -2,6 +2,7 @@ package com.ds.snackapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Dsusers;
@@ -26,6 +27,25 @@ public class SelectionService {
 		
 		
 		return sl;
+	}
+	public Selection updateSelection(Selection existingselection,Selection selectiondetails)
+	{
+		existingselection.setEnabled(selectiondetails.isEnabled());
+		
+		return selectionrepository.save(existingselection);
+		
+	}
+	
+	public ModelAndView redirectToHomepage(int roleid)
+	{
+		if(roleid == 1 || roleid == 2)
+		{
+			return new ModelAndView("redirect:/admin/adminhomepage");
+		}
+		else
+		{
+			return new ModelAndView("redirect:/userhomepage");
+		}
 	}
 
 }

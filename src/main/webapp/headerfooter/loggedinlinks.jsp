@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<security:authorize access="hasAuthority('SuperAdmin')">
+<security:authorize access="hasAnyAuthority('SuperAdmin','Admin')">
 	<li><a href="/admin/addsnackform">Insert Snack</a></li>
 	<li><a href="/admin/snacks">Snack List</a></li>
 	<li><a href="/admin/vendorinsertform">Insert Vendor</a></li>

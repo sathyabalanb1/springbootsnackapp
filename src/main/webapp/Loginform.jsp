@@ -48,6 +48,7 @@
 			</tr>
 		</table>
 	</form>
+<%@include file="./headerfooter/footer.jsp"%>
 
 </body>
 </html>

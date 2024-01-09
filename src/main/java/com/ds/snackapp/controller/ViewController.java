@@ -143,5 +143,9 @@ public class ViewController {
 		return "/Adminhomepage.jsp";
 	}	
 		
-
+	@GetMapping("/admin/reportform")
+	public String showSelectionReportform()
+	{
+		return "/report/Reportform.jsp";
+	}
 }

@@ -18,6 +18,7 @@
 	<li><a href="/assignments">Assignment List</a></li>
 	<li><a href="/allemployees">Employee List</a></li>
 	<li><a href="/common/snackselectionform">ChooseSnack</a></li>
+	<li><a href="/admin/reportform">SnackSelection Report</a></li>
 	<li><a href="/logout">Logout</a></li>
     </security:authorize>
 	<security:authorize access="isAuthenticated() and hasAuthority('User')">

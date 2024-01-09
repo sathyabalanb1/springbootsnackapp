@@ -117,5 +117,12 @@ public class AssignmentService {
 		
 		return assignmentrepository.findBySnack(sn);
 	}
+	
+	public int isValidDate(String reportdate)
+	{
+		List<Assignment> an = assignmentrepository.findByAssigneddate(reportdate);
+		
+		return an.size();
+	}
 
 }

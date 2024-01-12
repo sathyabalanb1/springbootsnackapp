@@ -55,7 +55,7 @@ $.ajax({
 			$('.snackwant').html('');  
             $('.oktable').before("<p class='snackwant' style='color:red'><b>List of Employees Who Want the Snack</b></p>");
             
-            var e = $('<thead class="table-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">ChoosenDate</th></tr></thead><tbody class="table-success">');
+           var e = $('<thead class="table-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">ChoosenDate</th></tr></thead><tbody class="table-success">');
            $('#user').html('');  
            $('#user').append(e); 
            
@@ -69,11 +69,10 @@ $.ajax({
            poscount=0;
            negcount=0;
            
-            for(i = 0; i < data.length; i++) {  
-        student = data[i];
-	    var e = $('<tr><td id = "userid" ></td><td id = "username"></td><td id = "selectiondate"></td></tr>');
-        var d = $('<tr><td id = "notokuserid"></td><td id = "notokusername"></td><td id = "notokdate"></td></tr>');
-        
+         for(i = 0; i < data.length; i++) {  
+          student = data[i];
+	      var e = $('<tr><td id = "userid" ></td><td id = "username"></td><td id = "selectiondate"></td></tr>');
+          var d = $('<tr><td id = "notokuserid"></td><td id = "notokusername"></td><td id = "notokdate"></td></tr>');
         
         
         if(data[i].enabled == true)
@@ -107,7 +106,15 @@ $.ajax({
         var e = $('</tbody>');
         $('#user').append(e); 
         
-       
+       $('.selectioncount').html('');  
+              
+        $('.countinfotable').before("<p class='selectioncount' style='color:red'><b>Count Information Based on the Category</b></p>");
+	var resultcount = '<thead class="table-dark"><tr><th width="470px">Sl.No</th><th width="470px">Category</th><th width="470px">Count</th></tr></thead><tbody class="table-success">';
+	resultcount += '<tr><td id = "slno"></td><td id = "poscategory"></td><td id = "positivevaluecount"></td></tr>';
+	resultcount += '<tr><td>1</td><td>Number of Employeess Who Want the Snack</td><td>'+poscount+'</td></tr>';
+	resultcount += '<tr><td>2</td><td>Number of Employeess Who Dont Want the Snack</td><td>'+negcount+'</td></tr></tbody></table>';
+
+	$('#resultuser').html(resultcount);
            
              			
 			},
@@ -133,6 +140,44 @@ $.ajax({
 		contentType: "json",
 		success: function(data) {
 				console.log(data);
+		    var sldate = selectedDt;
+			const myArray = sldate.split(" - ");
+            var modifieddate = myArray[1]
+				
+		$('.snacknoresponse').html('');  
+        $('.noresponsetable').before("<p class='snacknoresponse' style='color:red'><b>List of Employees Who are All Not Responded</b></p>");
+        
+        var f = $('<thead class="table-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">NotrespondedDate</th></tr></thead><tbody class="table-success">'); 
+        $('#noresponseuser').html('');  
+        $('#noresponseuser').append(f);
+        
+        for(i = 0; i < data.length; i++) {  
+
+
+        var f = $('<tr><td id = "noresponseuserid"></td><td id = "noresponseusername"></td><td id="noresponsedate"></td></tr>');
+        
+        
+        $('#noresponseuserid', f).html(data[i].id);  
+        $('#noresponseusername', f).html(data[i].name); 
+        $('#noresponsedate', f).html(modifieddate);   
+        $('#noresponseuser').append(f);  
+                    
+        }
+        if(data.length==0)
+        {
+        $('#noresponseuser').html("<tr><td class='table-success' colspan='3'>No Records Found</td></tr>");  
+        $('#noresponseuser').append(f);
+        }
+        
+        var resultcount = $('<tbody>');
+        var rcount = $('<tr><td id = "slno"></td><td id = "noresponsecategory"></td><td id = "noresponsevalue"></td></tr>');
+        $('#noresponsecategory', rcount).html("Number of Employeess Who Have not Responded for the Snack");
+        $('#slno', rcount).html(3);  
+        $('#noresponsevalue', rcount).html(data.length);
+        var resultcount = $('</tbody>');
+        $('#resultuser').append(rcount);
+
+        
 			},
 		error:function(xhr, status, error) {
 				console.log("Error saving cinema: " + error);

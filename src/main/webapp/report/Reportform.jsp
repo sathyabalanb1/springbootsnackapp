@@ -26,7 +26,12 @@
 
 <table id="notokuser" class="notoktable" border="1">  
 </table>
-<br>    
+<br>
+<table id="noresponseuser" class="noresponsetable" border="1">  
+</table>  
+<br><br>
+<table id="resultuser" class="countinfotable" border="1">  
+</table>      
 </body>
 <script src="../javascriptfiles/Reportformresponse.js" type="text/javascript"></script>
 

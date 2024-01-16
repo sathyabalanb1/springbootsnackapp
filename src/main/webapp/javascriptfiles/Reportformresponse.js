@@ -1,13 +1,10 @@
 
 $(function(){
-  $('#shootdate').daterangepicker({
-  locale:{
-  format:'DD-MM-YYYY'
-  }
-  }
-  );
+    $("#shootdate").datepicker({ 
+	dateFormat: 'dd-mm-yy',//check change
+    changeMonth: true,
+    changeYear: true });
 });
-
 function makeAjaxCall(url, method, data, datatype, ProcessData, type, successCallback, errorCallback) {
 	$.ajax({
 		url: url,
@@ -36,7 +33,12 @@ function getSelectionDetails() {
 
 var selectedDt = document.getElementById('shootdate').value;
 
-console.log(selectedDt);
+	if (selectedDt == "") {
+    document.getElementById("resultdateerror").innerHTML = "Please select the date.";
+    return false;
+  }
+  
+//console.log(selectedDt);
 
 $.ajax({
 		url: "/preparereport?input="+selectedDt,
@@ -46,12 +48,12 @@ $.ajax({
 		processData: false,
 		contentType: "json",
 		success: function(data) {
-			console.log(1);
+		//	console.log(data.length);
+			//console.log(data[0].dsuser.name);
 			console.log(data);
-			console.log(data[0].dsuser.name);
 			var sldate = selectedDt;
-			const myArray = sldate.split(" - ");
-            var modifieddate = myArray[1];	
+		//	const myArray = sldate.split(" - ");
+        //    var modifieddate = myArray[1];	
 			$('.snackwant').html('');  
             $('.oktable').before("<p class='snackwant' style='color:red'><b>List of Employees Who Want the Snack</b></p>");
             
@@ -79,7 +81,7 @@ $.ajax({
         {
         $('#userid', e).html(data[i].dsuser.id);  
         $('#username', e).html(data[i].dsuser.name);
-        $('#selectiondate', e).html(modifieddate);    
+        $('#selectiondate', e).html(selectedDt);    
         $('#user').append(e);
         poscount++;  
         }
@@ -87,11 +89,12 @@ $.ajax({
         {
         $('#notokuserid', d).html(data[i].dsuser.id);  
         $('#notokusername', d).html(data[i].dsuser.name);  
-        $('#notokdate', d).html(modifieddate);  
+        $('#notokdate', d).html(selectedDt);  
         $('#notokuser').append(d);
         negcount++; 
         }
         }
+        
         if(poscount==0)
         {
         $('#user').html("<tr><td class='table-success' colspan='3'>No Records Found</td></tr>");  
@@ -129,7 +132,11 @@ function getNoResponseDetails() {
 
 var selectedDt = document.getElementById('shootdate').value;
 
-console.log(selectedDt);
+	if (selectedDt == "") {
+    document.getElementById("resultdateerror").innerHTML = "Please select the date.";
+    return false;
+  }
+//console.log(selectedDt);
 
 $.ajax({
 		url: "/preparenoresponsereport?input="+selectedDt,
@@ -139,10 +146,9 @@ $.ajax({
 		processData: false,
 		contentType: "json",
 		success: function(data) {
-				console.log(data);
+				//console.log("qwertasdfghbnm");
+				//console.log(data);
 		    var sldate = selectedDt;
-			const myArray = sldate.split(" - ");
-            var modifieddate = myArray[1]
 				
 		$('.snacknoresponse').html('');  
         $('.noresponsetable').before("<p class='snacknoresponse' style='color:red'><b>List of Employees Who are All Not Responded</b></p>");
@@ -151,22 +157,26 @@ $.ajax({
         $('#noresponseuser').html('');  
         $('#noresponseuser').append(f);
         
+        if(data[0].name != null)
+        {
         for(i = 0; i < data.length; i++) {  
-
+		
 
         var f = $('<tr><td id = "noresponseuserid"></td><td id = "noresponseusername"></td><td id="noresponsedate"></td></tr>');
         
         
         $('#noresponseuserid', f).html(data[i].id);  
         $('#noresponseusername', f).html(data[i].name); 
-        $('#noresponsedate', f).html(modifieddate);   
+        $('#noresponsedate', f).html(selectedDt);   
         $('#noresponseuser').append(f);  
                     
         }
-        if(data.length==0)
+        }
+        if(data[0].name == null)
         {
         $('#noresponseuser').html("<tr><td class='table-success' colspan='3'>No Records Found</td></tr>");  
         $('#noresponseuser').append(f);
+        data=[];
         }
         
         var resultcount = $('<tbody>');

@@ -49,10 +49,11 @@ public class ReportController {
 	public ResponseEntity<List<Selection>> prepareSelectionReport(@RequestParam("input") String inputdate)
 	{
 
-		String dateArray[] = inputdate.split(" - ");
+	//	String dateArray[] = inputdate.split(" - ");
+		
 
-		String sd = reportservice.formatStartDate(dateArray[0]);
-		String ed = reportservice.formatEndDate(dateArray[1]);	
+		String sd = reportservice.formatStartDate(inputdate);
+		String ed = reportservice.formatEndDate(inputdate);	
 
 		List<Selection>s = reportservice.fetchSelectionDetails(sd,ed);
 		
@@ -103,9 +104,8 @@ public class ReportController {
 	@GetMapping("/preparenoresponsereport")
 	public ResponseEntity<List<Dsusers>> prepareNoResponseReport(@RequestParam("input") String inputdate)
 	{
-		String dateArray[] = inputdate.split(" - ");
-		String sd = reportservice.formatStartDate(dateArray[0]);
-		String ed = reportservice.formatEndDate(dateArray[1]);
+		String sd = reportservice.formatStartDate(inputdate);
+		String ed = reportservice.formatEndDate(inputdate);	
 		
 		List<Selection>sllist = reportservice.fetchSelectionDetails(sd,ed);
 		

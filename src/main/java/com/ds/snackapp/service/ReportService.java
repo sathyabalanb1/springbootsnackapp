@@ -97,6 +97,14 @@ public class ReportService {
 	{
 		int i=0,j=0,count=0;
 		
+		if(slusers.size() == 0)
+		{
+			List<Dsusers>xul = new ArrayList<Dsusers>();
+			Dsusers u = new Dsusers();
+			xul.add(u);
+			return xul;
+		}
+				
 		int allUserIds[] = pickUserIds(allusers);
 		int slUserIds[] = pickSelectedUserIds(slusers);
 		

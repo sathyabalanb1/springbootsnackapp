@@ -1,7 +1,6 @@
 package com.ds.snackapp.service;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ds.snackapp.dto.AssignmentDTO;
 import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Snack;
+import com.ds.snackapp.entity.Vendor;
 import com.ds.snackapp.repository.AssignmentRepository;
 import com.ds.snackapp.repository.SnackRepository;
 import com.ds.snackapp.repository.VendorRepository;
@@ -123,6 +123,13 @@ public class AssignmentService {
 		List<Assignment> an = assignmentrepository.findByAssigneddate(reportdate);
 		
 		return an.size();
+	}
+	
+	public Assignment getAssignedVendor(int vendorid)
+	{
+		Vendor vn = vendorrepository.getById(vendorid);
+		
+		return assignmentrepository.findByVendor(vn);
 	}
 
 }

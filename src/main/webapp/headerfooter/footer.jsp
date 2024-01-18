@@ -4,9 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="../css/footer.css" rel="stylesheet"/>
+
 <title></title>
 </head>
 <body>
-<p>Copyright 2024 reserved by DiligentSquad Technologies Private Limited</p>
+<nav class="navbar">
+<div>
+Copyright 2024 reserved by DiligentSquad Technologies Private Limited
+</div>
+</nav>
 </body>
 </html>

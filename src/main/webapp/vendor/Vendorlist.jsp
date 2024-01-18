@@ -24,6 +24,9 @@
 </tr>
 </thead>
 <tbody>
+<c:if test="${deleteinfo != null}">
+<p class="text-success">Assigned Vendor Cannot Be Removed</p>
+</c:if>
 <c:forEach var="vendorentry" items="${vendors}" varStatus="loop">
 <tr>
 <td>${loop.index+1}</td>

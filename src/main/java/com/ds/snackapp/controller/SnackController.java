@@ -49,11 +49,11 @@ public class SnackController {
 	*/
 	
 	@GetMapping("/admin/snacks")
-	public String fetchAllSnacks(@RequestParam(required=false) boolean snackdelete, Model model)	
+	public String fetchAllSnacks(@RequestParam(required=false) String snackdelete, Model model)	
 	{
 		List<Snack>snacks = snackservice.getSnacks();
 		model.addAttribute("availablesnacks",snacks);
-		
+				
 		model.addAttribute("deleteinfo",snackdelete);
 				
 		return "/snack/Availablesnacks.jsp";
@@ -97,13 +97,13 @@ public class SnackController {
 		 
 			if(ass != null)
 			{
-			   return new ModelAndView("redirect:/admin/snacks?snackdelete=false");
+			   return new ModelAndView("redirect:/admin/snacks?snackdelete="+ass.getSnack().getSnackname());
 			}
 			else
 			{
 				snackservice.deleteSnack(snackid);
 
-				return new ModelAndView("redirect:/admin/snacks?snackdelete=true");
+				return new ModelAndView("redirect:/admin/snacks");
 	        }
 	}
 }

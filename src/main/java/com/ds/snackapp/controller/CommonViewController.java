@@ -41,6 +41,14 @@ public class CommonViewController {
 	
 	List<Assignment>ass = assignmentservice.getAssignmentDetails();
 	
+	if(ass.size() == 0)
+	{
+		model.addObject("empname", dsu.getName());
+		model.addObject("choosesnackerror","Today's Snack is Not Yet Assigned");
+		model.setViewName("/snackselection/Snackselectionform.jsp");
+		return model;
+	}
+	
 	int assignmentid = ass.get(0).getId();
 	
 	String assigneddate = ass.get(0).getAssigneddate();

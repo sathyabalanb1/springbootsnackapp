@@ -7,7 +7,8 @@
 <head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<link href="../css/topnavigation.css" rel="stylesheet"/>
+<link href="../css/footer.css" rel="stylesheet"/>
 <meta charset="UTF-8">
 <title>Report Page</title>
 </head>
@@ -30,7 +31,9 @@
 </table>  
 <br><br>
 <table id="resultuser" class="countinfotable" border="1">  
-</table>      
+</table>
+<%@include file="../headerfooter/footer.jsp"%>
+      
 </body>
 <script src="../javascriptfiles/Reportformresponse.js" type="text/javascript"></script>
 

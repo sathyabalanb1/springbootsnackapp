@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Vendor;
+import com.ds.snackapp.service.AssignmentService;
 import com.ds.snackapp.service.VendorService;
 
 @Controller
@@ -18,19 +20,25 @@ public class VendorController {
 	@Autowired
 	private VendorService vendorservice;
 	
+	@Autowired
+	private AssignmentService assignservice;
+	
 	@PostMapping("/addvendor")
-	public String addVendor (Vendor vendor)
+	public ModelAndView addVendor (Vendor vendor)
 	{
 		
 		vendorservice.createVendor(vendor);
 		
-		return "vendor/Vendorinsertform.jsp";
+		return new ModelAndView("redirect:/admin/vendors");
 	}
 	@GetMapping("/admin/vendors")
-	public String fetchAllVendors(Model model)
+	public String fetchAllVendors(@RequestParam(required=false) String vendordelete, Model model)
 	{
 		List<Vendor>vns = vendorservice.getVendors();
 		model.addAttribute("vendors",vns);
+		
+		model.addAttribute("deleteinfo",vendordelete);
+
 		
 		return "/vendor/Vendorlist.jsp";
 		
@@ -42,15 +50,24 @@ public class VendorController {
 		
 		Vendor resultvendor=vendorservice.updateVendor(vendor);
 		
-		return new ModelAndView("redirect:/vendors");
+		return new ModelAndView("redirect:/admin/vendors");
 				
 	}
 	@GetMapping("/admin/deletevendor")
 	public ModelAndView removeVendor(@RequestParam("vid") int vendorid) {
-		 
-			vendorservice.deleteVendor(vendorid);
-		 
-			return new ModelAndView("redirect:/vendors");
+		
+		    Assignment ass = assignservice.getAssignedVendor(vendorid);
+		    
+		    if(ass != null)
+			{
+			   return new ModelAndView("redirect:/admin/vendors?vendordelete="+ass.getVendor().getVendorname());
+			}
+			else
+			{
+				vendorservice.deleteVendor(vendorid);
+				 
+				return new ModelAndView("redirect:/admin/vendors");
+	        }
 		
 	}
 }

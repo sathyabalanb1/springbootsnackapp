@@ -11,16 +11,9 @@
 <%@include file="../headerfooter/header.jsp"%>
 
 <body>
-<c:choose>
-		<c:when test="${deleteinfo == true}">
-			<p class="text-success">Snack is Removed Successfully</p>
-		</c:when>
-		<c:when test="${deleteinfo == false}">
-			<p class="text-success">Assigned Snack Cannot Be Removed</p>
-		</c:when>
-		<c:otherwise>
-        </c:otherwise>
-	</c:choose>
+<c:if test="${deleteinfo != null}">
+<p class="text-success">Assigned Snack Cannot Be Removed</p>
+</c:if>
 <table border="1">
 		<caption>Snacks List</caption>
 		<thead>

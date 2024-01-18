@@ -1,5 +1,6 @@
 package com.ds.snackapp.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,8 +139,12 @@ public class ViewController {
 	}
 		
 	@GetMapping("/admin/adminhomepage")
-	public String showAdminHomepage()
+	public String showAdminHomepage(Principal principal)
 	{
+		String username = principal.getName();
+		
+		Dsusers dsu = userservice.fetchUserDetails(username);
+		
 		return "/Adminhomepage.jsp";
 	}	
 		

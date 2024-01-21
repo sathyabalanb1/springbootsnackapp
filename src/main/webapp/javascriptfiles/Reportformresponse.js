@@ -57,7 +57,7 @@ $.ajax({
 			$('.snackwant').html('');  
             $('.oktable').before("<p class='snackwant' style='color:red'><b>List of Employees Who Want the Snack</b></p>");
             
-           var e = $('<thead class="table-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">ChoosenDate</th></tr></thead><tbody class="table-success">');
+           var e = $('<thead class="table-dark"  ><tr><th width="470px" scope="col">ID</th><th width="470px" scope="col">Employeename</th><th width="470px" scope="col">ChoosenDate</th></tr></thead><tbody>');
            $('#user').html('');  
            $('#user').append(e); 
            

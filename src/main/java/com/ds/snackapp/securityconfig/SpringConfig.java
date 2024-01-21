@@ -80,7 +80,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-		.authorizeHttpRequests().antMatchers("/").permitAll()
+		.authorizeHttpRequests().antMatchers("/","/registerform","/addDsuser","/img/**","/javascriptfiles/**","/headerfooter/**","/css/**","/logoutpage").permitAll()
 		.antMatchers("/admin/**","/name").hasAnyAuthority("SuperAdmin","Admin")
 		.antMatchers("/common/**","/name").hasAnyAuthority("SuperAdmin", "User","Admin")
 		.anyRequest().authenticated()

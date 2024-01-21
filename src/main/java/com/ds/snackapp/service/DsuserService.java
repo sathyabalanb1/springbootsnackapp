@@ -36,19 +36,28 @@ public class DsuserService {
 		return repository.save(dsuser);
 	}
 */	
-/*
- * public String createDsuser(Dsusers dsuser) { Role role =
- * rolerepository.findByRolename("User").get(0); dsuser.setRoleid(role);
- * 
- * String inputemail = dsuser.getEmail(); List<Dsusers> existinguser =
- * repository.findByEmail(inputemail);
- * 
- * 
- * if (existinguser.size() > 0) { return null; } else { repository.save(dsuser);
- * return "User Registered Successfully"; }
- * 
- * }
- */
+
+  public String createDsuser(Dsusers dsuser) { 
+   Role role = rolerepository.findByRolename("User").get(0); 
+ 
+   dsuser.setRoleid(role);
+  
+  String inputemail = dsuser.getEmail(); 
+  
+  Dsusers existinguser = repository.findByEmail(inputemail);
+  
+  
+  if (existinguser != null) {
+	  return null; 
+	  } else { 
+ 
+  repository.save(dsuser);
+  
+  return "User Registered Successfully"; 
+  }
+  
+  }
+ 
 
 	public Dsusers getDsuserById(int id) {
 		return repository.findById(id).orElse(null);

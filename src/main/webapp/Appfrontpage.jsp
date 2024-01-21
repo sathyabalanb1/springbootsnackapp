@@ -5,14 +5,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+.middleimg img{
+  height: 150px;
+  width: 400px;
+  padding: 5px;
+}
+</style>
 <meta charset="UTF-8">
 <title>App Front Page</title>
 </head>
 <body>
 	<%@include file="./headerfooter/header.jsp"%>
+	<!-- 
 	<c:if test="${welcomeinfo != null}">
 		<h3>${welcomeinfo}</h3>
 	</c:if>
+	-->
+	<div style="padding-left:20px">
+  <h1><center>Welcome to DiligentSquad Snack Site<center></h1>
+  
+</div>
 
 	<div class="container">
 

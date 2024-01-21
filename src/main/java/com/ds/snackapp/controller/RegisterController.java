@@ -2,30 +2,41 @@ package com.ds.snackapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.service.DsuserService;
 @Controller
 public class RegisterController {
 
 	@Autowired
 	private DsuserService service;
-	/*
-	 * @PostMapping("/addDsuser") public String addDsuser(Dsusers dsuser,Model
-	 * model) {
-	 * 
-	 * // System.out.println("we going to add a product");
-	 * 
-	 * // Dsusers createDsuser = service.createDsuser(dsuser);
-	 * 
-	 * /String message = service.createDsuser(dsuser);
-	 * 
-	 * if(message == null) { model.addAttribute("info",false); return
-	 * "Dsuserregister.jsp"; } else { model.addAttribute("info", true); return
-	 * "Dsuserregister.jsp"; }
-	 */
+	
+	  @PostMapping("/addDsuser") 
+	  public String addDsuser(Dsusers dsuser,Model model) {
+	  
+	 // System.out.println("we going to add a product");
+	  
+	  // Dsusers createDsuser = service.createDsuser(dsuser);
+	  
+	  String message = service.createDsuser(dsuser);
+	  
+	  if(message == null) {
+		  model.addAttribute("info",false); 
+		  return "Dsuserregister.jsp";
+		//  return "/authentication/Dsuserregister.jsp";
+
+	  }
+	   else {
+	   model.addAttribute("info", true); 
+	   return "Dsuserregister.jsp"; 
+	 //  return "/authentication/Dsuserregister.jsp";
+	   }
+	 
 
 		//	ModelAndView modelAndView = new ModelAndView();
 		//	modelAndView.addObject( "status",createDsuser);
@@ -34,7 +45,7 @@ public class RegisterController {
 		//	model.addAttribute("status", createDsuser);
 
 		//	return "Dsuserregister.jsp";
-//	}
+	}
 	/*
 	@PostMapping("/validUser")
 	public String isValidUser(LoginDTO logincredentials,Model model)

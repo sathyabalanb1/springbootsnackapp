@@ -11,7 +11,7 @@
 <body>
 <nav class="navbar">
 <div>
-Copyright 2024 reserved by DiligentSquad Technologies Private Limited
+@Copyright 2024 reserved by DiligentSquad Technologies Private Limited
 </div>
 </nav>
 </body>

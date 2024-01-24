@@ -1,5 +1,10 @@
 package com.ds.snackapp.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +18,9 @@ import com.ds.snackapp.repository.SelectionRepository;
 public class SelectionService {
 	@Autowired
 	private SelectionRepository selectionrepository;
+	
+	@Autowired
+	private ReportService reportservice;
 		
 	
 	public Selection addSelection(Selection selectiondetails)
@@ -47,5 +55,48 @@ public class SelectionService {
 			return new ModelAndView("redirect:/userhomepage");
 		}
 	}
+	/*
+	public int fetchYesSelectedEmployees()
+	{
+		Date date = new Date();
+		String inputdate = new SimpleDateFormat("dd-MM-yyyy").format(date);
+		
+		String startdate = reportservice.formatStartDate(inputdate);
+		String enddate = reportservice.formatEndDate(inputdate);
+		
+		int yescount = selectionrepository.fetchYesSelection(startdate,enddate);
+		
+		int nocount = selectionrepository.fetchNoSelection(startdate,enddate);
+		
+		int noresponsecount = selectionrepository.fetchNoResponse(startdate,enddate);
+		
+		int sum = nocount;
+		
+		return 5;
+	}
+	*/
+	public Map fetchSelectionCount()
+	{
+		Date date = new Date();
+		String inputdate = new SimpleDateFormat("dd-MM-yyyy").format(date);
+		
+		String startdate = reportservice.formatStartDate(inputdate);
+		String enddate = reportservice.formatEndDate(inputdate);
+		
+		int yescount = selectionrepository.fetchYesSelection(startdate,enddate);
+		
+		int nocount = selectionrepository.fetchNoSelection(startdate,enddate);
+		
+		int noresponsecount = selectionrepository.fetchNoResponse(startdate,enddate);
+		
+		Map<String,Integer>mm = new HashMap<String,Integer>();
+		
+		mm.put("yescount", yescount);
+		mm.put("nocount", nocount);
+		mm.put("noresponsecount", noresponsecount);
+		
+		return mm;
+	}
+	
 
 }

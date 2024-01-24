@@ -2,6 +2,7 @@ package com.ds.snackapp.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Assignment;
 import com.ds.snackapp.entity.Dsusers;
+import com.ds.snackapp.entity.Role;
 import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.entity.Vendor;
 import com.ds.snackapp.service.AssignmentService;
 import com.ds.snackapp.service.DsuserService;
+import com.ds.snackapp.service.RoleService;
+import com.ds.snackapp.service.SelectionService;
 import com.ds.snackapp.service.SnackService;
 import com.ds.snackapp.service.VendorService;
 
@@ -30,6 +34,12 @@ public class ViewController {
 	private AssignmentService assignmentservice;	
 	@Autowired
 	private DsuserService userservice;
+	
+	@Autowired
+	private RoleService roleservice;
+	
+	@Autowired
+	private SelectionService selectionservice;
 		
 
 	@GetMapping("/admin/addsnackform")
@@ -139,11 +149,32 @@ public class ViewController {
 	}
 		
 	@GetMapping("/admin/adminhomepage")
-	public String showAdminHomepage(Principal principal)
+	public String showAdminHomepage(Principal principal,Model model)
 	{
 		String username = principal.getName();
 		
 		Dsusers dsu = userservice.fetchUserDetails(username);
+		
+		List<Dsusers>allemps = userservice.fetchAllEmployees();
+		
+		List<Role>rls = roleservice.fetchAllRole();
+		
+	//	int yesSelectionCount = selectionservice.fetchYesSelectedEmployees();
+		
+		List<Assignment>as = assignmentservice.getAssignmentDetails();
+		
+		
+		Map<String,Integer> selectionDetails = selectionservice.fetchSelectionCount();
+				
+		Map<String,Integer> empCategory = roleservice.fetchRoleBasedEmployeeCount(allemps,rls);
+		
+		model.addAttribute("yesselection", selectionDetails.get("yescount"));
+		model.addAttribute("noselection", selectionDetails.get("nocount"));
+		model.addAttribute("noresponse", selectionDetails.get("noresponsecount"));
+		
+		model.addAttribute("superadmincount", empCategory.get("SuperAdmin"));
+		model.addAttribute("admincount", empCategory.get("Admin"));
+		model.addAttribute("usercount",empCategory.get("User"));
 		
 		return "/Adminhomepage.jsp";
 	}	

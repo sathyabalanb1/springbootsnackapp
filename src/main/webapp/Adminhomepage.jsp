@@ -13,6 +13,8 @@
 
 <p>This is Admin Homepage</p>
 
+<div class="banner"><img src="./img/cake.jpeg" alt="Samosaksksk"/></div>
+
 <%@include file="./headerfooter/footer.jsp"%>
 
 </body>

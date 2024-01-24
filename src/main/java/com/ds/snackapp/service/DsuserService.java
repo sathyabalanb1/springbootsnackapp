@@ -142,5 +142,10 @@ public class DsuserService {
 		
 	}
 	
+	public List<Dsusers> fetchAllEmployees()
+	{
+		return repository.findAll();
+	}
+	
 
 }

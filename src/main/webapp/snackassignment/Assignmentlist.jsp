@@ -37,8 +37,23 @@
 					<td>${temp.assigneddate}</td>
 					<td>${temp.snack.snackname}</td>
 					<td>${temp.getVendor().getVendorname()}</td>
-					<td><a href="/assignmentupdateform?aid=${temp.id}">Edit</a></td>		
+					<c:choose>
+		            <c:when test="${temp.assigneddate != currentdate}">
+		            <td><a href="/assignmentupdateform?aid=${temp.id}" style="pointer-events: none;color:black;">Edit</a></td>
+				    </c:when>
+					<c:otherwise>
+						<td><a href="/assignmentupdateform?aid=${temp.id}">Edit</a></td>
+                    </c:otherwise>
+	                </c:choose>
+	                
+	                <c:choose>
+		            <c:when test="${temp.assigneddate != currentdate}">
+					<td><a href="/deleteassignment?aid=${temp.id}" style="pointer-events: none;color:black;" onclick="return confirm('Are you sure to delete this Assignment?')">Delete</a></td>
+				    </c:when>
+					<c:otherwise>
 					<td><a href="/deleteassignment?aid=${temp.id}" onclick="return confirm('Are you sure to delete this Assignment?')">Delete</a></td>
+                    </c:otherwise>
+	                </c:choose>
 				</tr>
 			</c:forEach>
 			</tbody>

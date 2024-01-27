@@ -1,6 +1,8 @@
 package com.ds.snackapp.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +85,12 @@ public class AssignmentController {
 	public String fetchAllAssignments(Model model)
 	{
 		List<Assignment>assignments = assignmentservice.getAssignments();
-
+		
+		String currentdate = assignmentservice.pickPresentDate();
+		
 		model.addAttribute("assignments", assignments);
+		
+		model.addAttribute("currentdate", currentdate);
 
 		return "snackassignment/Assignmentlist.jsp";
 

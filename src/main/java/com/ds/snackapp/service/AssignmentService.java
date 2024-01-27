@@ -131,5 +131,12 @@ public class AssignmentService {
 		
 		return assignmentrepository.findByVendor(vn);
 	}
+	public String pickPresentDate()
+	{
+		Date date = new Date();
+		String inputdate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+		
+		return inputdate;
+	}
 
 }

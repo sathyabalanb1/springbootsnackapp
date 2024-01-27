@@ -57,14 +57,14 @@ $.ajax({
 			$('.snackwant').html('');  
             $('.oktable').before("<p class='snackwant' style='color:red'><b>List of Employees Who Want the Snack</b></p>");
             
-           var e = $('<thead class="table-dark"  ><tr><th width="470px" scope="col">ID</th><th width="470px" scope="col">Employeename</th><th width="470px" scope="col">ChoosenDate</th></tr></thead><tbody>');
+           var e = $('<thead class="thead-dark"  ><tr><th width="470px" scope="col">ID</th><th width="470px" scope="col">Employeename</th><th width="470px" scope="col">ChoosenDate</th></tr></thead><tbody>');
            $('#user').html('');  
            $('#user').append(e); 
            
            $('.snackdontwant').html('');  
            $('.notoktable').before("<p class='snackdontwant' style='color:red'><b>List of Employees Who Don't Want the Snack</b></p>");
            
-           var d = $('<thead class="table-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">ChoosenDate</th></tr></thead><tbody class="table-success">'); 
+           var d = $('<thead class="thead-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">ChoosenDate</th></tr></thead><tbody class="table-success">'); 
            $('#notokuser').html('');  
            $('#notokuser').append(d);
            
@@ -102,7 +102,7 @@ $.ajax({
         }
         if(negcount==0)
         {
-        $('#notokuser').html("<tr><td class='table-success' colspan='3'>No Records Found</td></tr>");  
+        $('#notokuser').html("<tr><td style='text-align:center;' class=' table table-primary' colspan='3'>No Records Found</td></tr>");  
         $('#notokuser').append(d);
         }
         
@@ -112,10 +112,9 @@ $.ajax({
        $('.selectioncount').html('');  
               
         $('.countinfotable').before("<p class='selectioncount' style='color:red'><b>Count Information Based on the Category</b></p>");
-	var resultcount = '<thead class="table-dark"><tr><th width="470px">Sl.No</th><th width="470px">Category</th><th width="470px">Count</th></tr></thead><tbody class="table-success">';
-	resultcount += '<tr><td id = "slno"></td><td id = "poscategory"></td><td id = "positivevaluecount"></td></tr>';
+	var resultcount = '<thead class="thead-dark"><tr><th scope="col" >Sl.No</th><th scope="col">Category</th><th scope="col">Count</th></tr></thead><tbody>';
 	resultcount += '<tr><td>1</td><td>Number of Employeess Who Want the Snack</td><td>'+poscount+'</td></tr>';
-	resultcount += '<tr><td>2</td><td>Number of Employeess Who Dont Want the Snack</td><td>'+negcount+'</td></tr></tbody></table>';
+	resultcount += '<tr><td>2</td><td>Number of Employeess Who Dont Want the Snack</td><td>'+negcount+'</td></tr></tbody>';
 
 	$('#resultuser').html(resultcount);
            
@@ -153,7 +152,7 @@ $.ajax({
 		$('.snacknoresponse').html('');  
         $('.noresponsetable').before("<p class='snacknoresponse' style='color:red'><b>List of Employees Who are All Not Responded</b></p>");
         
-        var f = $('<thead class="table-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">NotrespondedDate</th></tr></thead><tbody class="table-success">'); 
+        var f = $('<thead class="thead-dark"  ><tr><th width="470px">ID</th><th width="470px">Employeename</th><th width="470px">NotrespondedDate</th></tr></thead><tbody class="table-success">'); 
         $('#noresponseuser').html('');  
         $('#noresponseuser').append(f);
         
@@ -178,7 +177,6 @@ $.ajax({
         $('#noresponseuser').append(f);
         data=[];
         }
-        
         var resultcount = $('<tbody>');
         var rcount = $('<tr><td id = "slno"></td><td id = "noresponsecategory"></td><td id = "noresponsevalue"></td></tr>');
         $('#noresponsecategory', rcount).html("Number of Employeess Who Have not Responded for the Snack");

@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
 <style>
 .middleimg img{
   height: 150px;
@@ -15,41 +20,47 @@
 <meta charset="UTF-8">
 <title>App Front Page</title>
 </head>
-<body>
 	<%@include file="./headerfooter/header.jsp"%>
+
+<body style="background-color:aliceblue;">
 	<!-- 
 	<c:if test="${welcomeinfo != null}">
 		<h3>${welcomeinfo}</h3>
 	</c:if>
 	-->
-	<div style="padding-left:20px">
-  <h1><center>Welcome to DiligentSquad Snack Site<center></h1>
+	
+
+	<div class="container" style="margin-bottom:30px;" >
+		<div style="padding-left:20px">
+  <h1 style = "font-family:impact,serif;"><center>Welcome to DiligentSquad Snacks Portal<center></h1>
   
 </div>
+		<div class="row middleimg" style="margin-left:50px;">
 
-	<div class="container">
-
-		<div class="row middleimg">
-
-			<div class="col-lg-6">
+			<div class="col-lg-6 snack">
 				<img src="./img/samosa2.jpeg" alt="Samosa"/>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-lg-6 snack">
 				<img src="<c:url value='../img/micher.jpeg'/>" alt="Micher"/>
 			</div>
 			
 		</div>
-		<div class="row middleimg">
+		<div class="row middleimg" style="margin-left:50px;">
 
-			<div class="col-lg-6">
-				<img src="<c:url value='./img/cake.jpeg'/>" alt="Cake"/>
+			<div class="col-lg-6 snack">
+				<img src="<c:url value='./img/redvelvetcake.jpeg'/>" alt="Cake"/>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-lg-6 snack">
 				<img src="<c:url value='./img/bunbutterjam.jpeg'/>" alt="Bunbutterjam"/>
 			</div>
 
 		</div>
 
 	</div>
+		<%@include file="./headerfooter/footer.jsp"%>
+	
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
 </html>

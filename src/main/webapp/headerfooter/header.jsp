@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<link href="../css/topnavigation.css" rel="stylesheet"/>
+<link href="../css/topnavigation.css" type="text/css" rel="stylesheet"/>
 <meta charset="UTF-8">
 <title></title>
 </head>
@@ -13,7 +14,7 @@
 	<security:authorize access="isAuthenticated() and hasAnyAuthority('SuperAdmin','Admin')">
 	
 	<nav class="navbar">
-	    <div class="logo">DS Snackapp</div>
+	    <img src="../img/dsquadlogo.png" alt="Dsquad"/>
 	    <ul class="nav-links">
 	      <div class="menu">
 	        <li><a href="/admin/adminhomepage">Home</a></li>
@@ -60,8 +61,15 @@
 			<li><a href="/logout">Logout</a></li>
 	</security:authorize>
 	<security:authorize access="isAnonymous()">
-       <li><a href="/registerform">Register </a></li>
+       	<nav class="navbar">
+       	    <img src="../img/dsquadlogo.png" alt="Dsquad"/>
+       	    <ul class="nav-links">
+       <div class="menu">
+       <li><a href="/registerform">Register</a></li>
        <li><a href="/signin">Login</a></li>
+       </div>
+       </ul>
+       </nav>
     </security:authorize>
 		
 	

@@ -155,7 +155,11 @@ public class ViewController {
 		
 		Dsusers dsu = userservice.fetchUserDetails(username);
 		
+		String authenticatedPerson = dsu.getName();
+		
 		List<Dsusers>allemps = userservice.fetchAllEmployees();
+		
+		int totalEmployees = allemps.size();
 		
 		List<Role>rls = roleservice.fetchAllRole();
 		
@@ -168,6 +172,19 @@ public class ViewController {
 				
 		Map<String,Integer> empCategory = roleservice.fetchRoleBasedEmployeeCount(allemps,rls);
 		
+		if(as.size()>0)
+		{
+			String snackname = as.get(0).getSnack().getSnackname();
+			
+			model.addAttribute("assignedsnack", snackname);
+		}
+		else
+		{
+			model.addAttribute("assignedsnack", null);
+		}
+		
+		model.addAttribute("authenticatedperson", authenticatedPerson);
+		
 		model.addAttribute("yesselection", selectionDetails.get("yescount"));
 		model.addAttribute("noselection", selectionDetails.get("nocount"));
 		model.addAttribute("noresponse", selectionDetails.get("noresponsecount"));
@@ -175,6 +192,7 @@ public class ViewController {
 		model.addAttribute("superadmincount", empCategory.get("SuperAdmin"));
 		model.addAttribute("admincount", empCategory.get("Admin"));
 		model.addAttribute("usercount",empCategory.get("User"));
+		model.addAttribute("totalemployees", totalEmployees);
 		
 		return "/Adminhomepage.jsp";
 	}	

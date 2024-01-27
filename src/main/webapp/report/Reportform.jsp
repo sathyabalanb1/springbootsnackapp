@@ -35,28 +35,37 @@
 					<div class="mb-3">
 						<label for="shootdate" class="form-label">Enter the Date:</label>							
 <input required type="text" id="shootdate" name="shootdate"class="form-control" id="shootdate" title="Choose your desired date" autocomplete="off"/>
-<button id="loadreport" class="btn btn-success" onclick="getSelectionDetails(),getNoResponseDetails()">Submit</button>
 <span class="error" id="resultdateerror" style="color:red;"></span>							
                      </div>
+					<button id="loadreport" class="btn btn-primary" onclick="getSelectionDetails(),getNoResponseDetails()">Submit</button>
 							
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-<table id="user" class="oktable" border="1">  
-</table> 
-<br><br>
 
-<table id="notokuser" class="notoktable" border="1">  
+<div class="container mt-4">	
+<table id="user" class="table table-primary oktable" border="1">  
+</table> 
+</div>
+
+<div class="container mt-4">
+<table id="notokuser" class="table table-primary notoktable" border="1">  
 </table>
+</div>
+
 <br>
-<table id="noresponseuser" class="noresponsetable" border="1">  
-</table>  
-<br><br>
-<table id="resultuser" class="countinfotable" border="1">  
+
+<div class="container mt-4">
+<table id="noresponseuser" class="table table-primary noresponsetable" border="1">  
 </table>
+</div>
+  
+<div class="container mt-4">
+<table class="table table-primary countinfotable" id="resultuser" border="1">  
+</table>
+</div>
 <%@include file="../headerfooter/footer.jsp"%>
       
 </body>

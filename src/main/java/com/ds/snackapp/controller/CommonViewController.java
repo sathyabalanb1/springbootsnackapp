@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Assignment;
@@ -31,7 +32,7 @@ public class CommonViewController {
 	private SelectionService selectionservice;
 	
 	@GetMapping("/common/snackselectionform")
-	private ModelAndView showSnackSelectionForm(ModelAndView model,Principal principal) {
+	private ModelAndView showSnackSelectionForm(@RequestParam(required=false) String edit,ModelAndView model,Principal principal) {
 	
 	String username = principal.getName();
 	
@@ -39,17 +40,32 @@ public class CommonViewController {
 	
 	int userid = dsu.getId();
 	
+	
 	List<Assignment>ass = assignmentservice.getAssignmentDetails();
 	
 	if(ass.size() == 0)
 	{
-		model.addObject("empname", dsu.getName());
-		model.addObject("choosesnackerror","Today's Snack is Not Yet Assigned");
-		model.setViewName("/snackselection/Snackselectionform.jsp");
-		return model;
+	 return assignmentservice.displayNoAssignmentInfo(ass,dsu.getName());
+	}
+	
+	boolean ans = selectionservice.checkSelectionTime();
+		
+	if(ans == false)
+	{
+		return selectionservice.displayChooseSnackTimeInfo(ans,dsu.getName()); 
 	}
 	
 	int assignmentid = ass.get(0).getId();
+
+	
+	Selection sl = selectionservice.fetchSelectionDetails(assignmentid,userid);
+	
+	if(sl != null)
+	{
+		return selectionservice.displaySnackSelectionInfo(sl);		
+		
+	}
+	
 	
 	String assigneddate = ass.get(0).getAssigneddate();
 	
@@ -65,8 +81,10 @@ public class CommonViewController {
 	model.setViewName("/snackselection/Snackselectionform.jsp");
 	
 	return model;
+	
+	}	
 				
-	}
+	
 	
 	@GetMapping("/registerform")
 	private String showRegisterForm() {
@@ -94,7 +112,7 @@ public class CommonViewController {
 		model.addAttribute("welcomeinfo", "Welcome to DiligentSquad Snack Site");
 		return "Appfrontpage.jsp";
 	}
-	
+	/*
 	@GetMapping("/userhomepage")
 	private ModelAndView showHomePage(Principal principal) {
 		
@@ -156,11 +174,48 @@ public class CommonViewController {
 		}
 						
 	}	
-	
+	*/
 	@GetMapping("/logoutpage")
 	public String logoutPage() {
 		return "authentication/logoutpage.jsp";
 }
+	
+	@GetMapping("/common/snackselectionupdate")
+	public ModelAndView showSnackSelectionUpdateForm(ModelAndView model,Principal principal) {
+
+		String username = principal.getName();
 		
+		Dsusers dsu = dsuserservice.fetchUserDetails(username);
+		
+		int userid = dsu.getId();
+		
+		List<Assignment>ass = assignmentservice.getAssignmentDetails();
+		
+		boolean ans = selectionservice.checkSelectionTime();
+		
+		if(ans == false)
+		{
+			return selectionservice.displayChooseSnackTimeInfo(ans,dsu.getName()); 
+		}
+		
+		int assignmentid = ass.get(0).getId();
+		
+		String assigneddate = ass.get(0).getAssigneddate();
+		
+		String snackname = ass.get(0).getSnack().getSnackname();
+		
+		String vendorname = ass.get(0).getVendor().getVendorname();
+		
+		model.addObject("assigneddate", assigneddate);
+		model.addObject("snackname", snackname);
+		model.addObject("vendorname", vendorname);
+		model.addObject("userid", userid);
+		model.addObject("assignmentid", assignmentid);
+		model.setViewName("/snackselection/Editsnackselectionform.jsp");
+		
+		return model;
+
+	}
+	
 
 }

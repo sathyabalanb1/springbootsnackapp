@@ -65,9 +65,9 @@ justify-content: center;
 
 	<div class="container">
 		<div class="row">
-			<p>
+			<h5>
 				<b style="color:red;background-color:black;">Employee Details</b>
-			</p>
+			</h5>
 		</div>
 
 		<div class="row boxescenter">
@@ -106,9 +106,9 @@ justify-content: center;
 			</c:when>
 		</c:choose>
 		<div class="row">
-			<p>
+			<h5>
 				<b style="color:red;background-color:black;">Today Selection Details</b>
-			</p>
+			</h5>
 		</div>
 
 		<div class="row" style="margin-bottom:10px;">

@@ -91,3 +91,11 @@ li {
     z-index:1;
   
 }
+
+.card-header{
+	text-align: center;
+}
+
+.snackappformbutton{
+	text-align: center;
+}

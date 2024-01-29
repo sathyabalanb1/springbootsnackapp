@@ -57,8 +57,15 @@
 	
     </security:authorize>
 	<security:authorize access="isAuthenticated() and hasAuthority('User')">
+		<nav class="navbar">
+	<img src="../img/dsquadlogo.png" alt="Dsquad"/>
+	<ul class="nav-links">
+	<div class="menu">
 		<li><a href="/common/snackselectionform">ChooseSnack</a></li>
 			<li><a href="/logout">Logout</a></li>
+	</div>
+	</ul>
+  </nav>
 	</security:authorize>
 	<security:authorize access="isAnonymous()">
        	<nav class="navbar">

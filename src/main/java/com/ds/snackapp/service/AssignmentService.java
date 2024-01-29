@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.dto.AssignmentDTO;
 import com.ds.snackapp.entity.Assignment;
@@ -138,5 +139,17 @@ public class AssignmentService {
 		
 		return inputdate;
 	}
-
+	public ModelAndView displayNoAssignmentInfo(List<Assignment>ass,String empname)
+	{
+		ModelAndView model = new ModelAndView();
+		
+		if(ass.size() == 0)
+		{
+			model.addObject("empname", empname);
+			model.addObject("choosesnackerror","Today's Snack is Not Yet Assigned");
+			model.setViewName("/snackselection/Snackselectionform.jsp");
+			return model;
+		}
+		return model;
+	}
 }

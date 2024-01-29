@@ -78,7 +78,9 @@
 								<input type="password" class="form-control" name="password" id="password">
 								<span class="error" id="passwordError" style="color:red;"></span>
 							</div>
+							<div class="mb-3 snackappformbutton">
 							<button type="submit" class="btn btn-primary">Register</button>
+							</div>
 						</form>
 					</div>
 				</div>

@@ -12,6 +12,17 @@
 	crossorigin="anonymous">
 <meta charset="UTF-8">
 <title>Snack Selection Form</title>
+<style type="text/css">
+.editselection{
+padding: 5px 10px;
+}
+
+.editselection a{
+
+color:white;
+
+}
+</style>
 </head>
 <body>
 	<%@include file="../headerfooter/header.jsp"%>
@@ -33,6 +44,54 @@
 								<div class="mb-3">
 									<p>${choosesnackerror}</p>
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		<c:when test="${selectiontimeerror != null}">
+			<div class="container my-5">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">ChooseSnack Info</h4>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<p>Dear <b style="color:green;">${empname}</b></p>
+								</div>
+								<div class="mb-3">
+									<p>${selectiontimeerror}</p>
+								</div>
+								<div class="mb-3">
+									<p>${selectiontimeinfo}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		<c:when test="${selectionvalue != null}">
+			<div class="container my-5">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">Snack Selection Info</h4>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<p>Dear <b style="color:green;">${empname}</b></p>
+								</div>
+								<div class="mb-3">
+									<p>You have chosen <b>${selectionvalue}</b> for Today's Snack</p>
+								</div>
+								<div class="mb-3 snackappformbutton">
+									<button class="editselection btn btn-primary"><a href="/common/snackselectionupdate">Edit Selection</a></button>
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -119,8 +178,9 @@
 									</div>
 									<input type="hidden" name="dsuser" value="${userid}"> <input
 										type="hidden" name="assignment" value="${assignmentid}">
-
+									<div class="mb-3 snackappformbutton">
 									<button type="submit" class="btn btn-primary">Choose</button>
+									</div>
 								</form>
 							</div>
 						</div>

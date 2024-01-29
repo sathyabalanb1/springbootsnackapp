@@ -40,8 +40,9 @@
 								<input type="text" class="form-control" name="snackname" id="name">
 								<span class="error" id="snacknameerror" style="color:red;"></span>
 							</div>
-							
+							<div class="mb-3 snackappformbutton">
 							<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
 						</form>
 					</div>
 				</div>

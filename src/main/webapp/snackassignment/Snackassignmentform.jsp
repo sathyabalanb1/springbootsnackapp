@@ -108,7 +108,9 @@
 
 								</select>
 							</div>
+							<div class="mb-3 snackappformbutton">
 							<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
 						</form>
 					</div>
 				</div>

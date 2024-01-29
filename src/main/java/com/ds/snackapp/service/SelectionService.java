@@ -1,6 +1,11 @@
 package com.ds.snackapp.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +60,8 @@ public class SelectionService {
 			return new ModelAndView("redirect:/userhomepage");
 		}
 	}
+	
+	
 	/*
 	public int fetchYesSelectedEmployees()
 	{
@@ -96,6 +103,72 @@ public class SelectionService {
 		mm.put("noresponsecount", noresponsecount);
 		
 		return mm;
+	}
+	
+	public boolean checkSelectionTime()
+	{
+        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
+        
+        ZonedDateTime currentDateTime = ZonedDateTime.now(zoneId);
+        
+        LocalDateTime now = LocalDateTime.now();
+        long currentmilliseconds = now.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        
+        LocalDateTime predefinedTime = LocalDateTime.of(
+                currentDateTime.toLocalDate(),  // Today's date
+                LocalTime.of(20, 11, 00)              // 6:30 PM
+        );
+        
+        long predefinedmilliseconds = predefinedTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        
+        if(currentmilliseconds>predefinedmilliseconds)
+        {
+        	return false;
+        }
+        
+        return true;
+
+	}
+	
+	public ModelAndView displayChooseSnackTimeInfo(boolean ans,String empname)
+	{
+		ModelAndView model = new ModelAndView();
+		
+		if(ans == false)
+		{
+			model.addObject("empname", empname);
+			model.addObject("selectiontimeerror","Time is Over to Choose the Snack");
+			model.addObject("selectiontimeinfo","Please choose the snack before 1:30 PM");
+			model.setViewName("/snackselection/Editsnackselectionform.jsp");
+			return model;
+		}
+		
+		return model;
+	}
+	
+	public ModelAndView displaySnackSelectionInfo(Selection sl)
+	{
+		ModelAndView model = new ModelAndView();
+		
+		boolean val = sl.isEnabled();
+		
+		String temp;
+		
+		if(val == true)
+		{
+			temp="Yes";
+		}
+		else
+		{
+			temp="No";
+		}
+		
+		String empname = sl.getDsuser().getName();
+		
+		model.addObject("empname", empname);
+		model.addObject("selectionvalue", temp);
+		model.setViewName("/snackselection/Snackselectionform.jsp");
+		return model;
 	}
 	
 

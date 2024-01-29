@@ -113,7 +113,9 @@
 								<input type="text" class="form-control" name="email" id="email" value="${existingemail}">								
 								<span class="error" id="emailerror" style="color: red;"></span>
 							</div>
-							<button type="submit" class="btn btn-primary">Register</button>
+							<div class="mb-3 snackappformbutton">
+							<button type="submit" class="btn btn-primary">Update Vendor</button>
+							</div>
 						</form>
 					</div>
 				</div>

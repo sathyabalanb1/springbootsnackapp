@@ -106,7 +106,9 @@ public class ViewController {
 	}
 	*/
 	@GetMapping("/admin/snackassignmentform")
-	private ModelAndView showAssignmentForm(ModelAndView model) {
+	private ModelAndView showAssignmentForm(ModelAndView model, Principal principal) {
+		
+		String username = principal.getName();
 		
 		List<Assignment> a = assignmentservice.getAssignmentDetails();
 		
@@ -198,37 +200,6 @@ public class ViewController {
 		model.addAttribute("admincount", empCategory.get("Admin"));
 		model.addAttribute("usercount",empCategory.get("User"));
 		model.addAttribute("totalemployees", totalEmployees);
-		
-        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
-        
-        ZonedDateTime currentDateTime = ZonedDateTime.now(zoneId);
-        
-      //  System.out.println(currentDateTime);
-        
-      //  ZonedDateTime currentTime = ZonedDateTime.now(zoneId);
-        
-     //   System.out.println(currentTime);
-        
-        LocalDateTime now = LocalDateTime.now();
-        long currentmilliseconds = now.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
-
-        
-        System.out.println(currentmilliseconds);
-        
-        LocalDateTime predefinedTime = LocalDateTime.of(
-                currentDateTime.toLocalDate(),  // Today's date
-                LocalTime.of(19, 11, 00)              // 6:30 PM
-        );
-        
-        long milliseconds = predefinedTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
-        
-        if(currentmilliseconds>milliseconds)
-        {
-        	System.out.println("True");
-        }
-
-        
-        System.out.println(milliseconds);
 		
 		
 		return "/Adminhomepage.jsp";

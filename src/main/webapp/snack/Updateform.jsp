@@ -41,8 +41,9 @@
 								<span class="error" id="snacknameerror" style="color:red;"></span>
 								<input type="hidden" name="id" value="${existingsnackid}">
 							</div>
-							
+							<div class="mb-3 snackappformbutton">
 							<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
 						</form>
 					</div>
 				</div>

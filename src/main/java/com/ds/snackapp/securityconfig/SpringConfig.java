@@ -97,7 +97,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 	                        return;
 	                    }
 	                }
-	                response.sendRedirect("/userhomepage");
+	                response.sendRedirect("/common/snackselectionform");
 	            })
 				.permitAll()
 				//.failureUrl("/invalid").permitAll()

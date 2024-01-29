@@ -13,6 +13,35 @@
 <link href="../css/footer.css" rel="stylesheet"/>
 <meta charset="UTF-8">
 <title>Report Page</title>
+<style type="text/css">
+
+
+.ui-datepicker{
+	background: aquamarine;
+	box-shadow: 0px 0px 13px 10px grey;
+
+}
+
+.ui-datepicker-header{
+	text-align:center;
+	padding:10px;
+}
+
+.ui-datepicker-calendar{
+	background: aquamarine;
+    padding: 31px 28px;
+    display: block;
+    margin-top:10px;
+}
+th{
+padding-right: 12px;
+}
+.ui-icon{
+color:black;
+padding-right:10px;
+}
+</style>
+
 </head>
 <body>
 <%@include file="../headerfooter/header.jsp"%>
@@ -34,11 +63,12 @@
 					<div class="card-body">
 					<div class="mb-3">
 						<label for="shootdate" class="form-label">Enter the Date:</label>							
-<input required type="text" id="shootdate" name="shootdate"class="form-control" id="shootdate" title="Choose your desired date" autocomplete="off"/>
+<input required type="text" id="shootdate"  name="shootdate" class="form-control reportfield" id="shootdate" title="Choose your desired date" autocomplete="off"/>
 <span class="error" id="resultdateerror" style="color:red;"></span>							
                      </div>
+                     <div class="mb-3 snackappformbutton">
 					<button id="loadreport" class="btn btn-primary" onclick="getSelectionDetails(),getNoResponseDetails()">Submit</button>
-							
+					</div>		
 					</div>
 				</div>
 			</div>

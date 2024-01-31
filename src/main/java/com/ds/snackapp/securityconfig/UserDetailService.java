@@ -1,6 +1,8 @@
 package com.ds.snackapp.securityconfig;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,12 +22,16 @@ public class UserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
 		Dsusers user = userRepo.findByEmail(username);
+		
+		//HttpSession session;
+		
 		//System.out.println(user.getName());
 		if (user == null) {
 			throw new UsernameNotFoundException("user not found");
 		} else {
+		//	session.setAttribute("AuthenticatedEmployee", user.getName());
+
 			return new UserPrinciple(user);
 		}
 

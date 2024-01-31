@@ -1,6 +1,11 @@
 package com.ds.snackapp.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +33,7 @@ public class AssignmentService {
 	private VendorRepository vendorrepository;
 
 	public String createAssignment(AssignmentDTO assignment, String date) {
-
+		
 		List<Assignment> ass = assignmentrepository.findByAssigneddate(date);
 		if (ass.size() > 0) {
 			return null;
@@ -152,4 +157,29 @@ public class AssignmentService {
 		}
 		return model;
 	}
+	public boolean checkAssignmentTime()
+	{
+        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
+        
+        ZonedDateTime currentDateTime = ZonedDateTime.now(zoneId);
+        
+        LocalDateTime now = LocalDateTime.now();
+        long currentmilliseconds = now.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        
+        LocalDateTime predefinedTime = LocalDateTime.of(
+                currentDateTime.toLocalDate(),  // Today's date
+                LocalTime.of(20, 30, 00)              // 6:30 PM
+        );
+        
+        long predefinedmilliseconds = predefinedTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        
+        if(currentmilliseconds>predefinedmilliseconds)
+        {
+        	return false;
+        }
+        
+        return true;
+
+	}
+
 }

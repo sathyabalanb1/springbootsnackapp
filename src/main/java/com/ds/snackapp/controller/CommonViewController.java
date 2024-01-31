@@ -5,7 +5,11 @@ package com.ds.snackapp.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,11 +36,19 @@ public class CommonViewController {
 	private SelectionService selectionservice;
 	
 	@GetMapping("/common/snackselectionform")
-	private ModelAndView showSnackSelectionForm(@RequestParam(required=false) String edit,ModelAndView model,Principal principal) {
+	private ModelAndView showSnackSelectionForm(@RequestParam(required=false) String edit,ModelAndView model,Principal principal,HttpSession ss) {
 	
-	String username = principal.getName();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String uname = authentication.getName();
+		String username = principal.getName();
+
+		Dsusers dsu = dsuserservice.fetchUserDetails(username);
+
+		
+		//Dsusers dsu = dsuserservice.fetchUserDetails(uname);
+		
+		ss.setAttribute("empname", dsu.getName());
 	
-	Dsusers dsu = dsuserservice.fetchUserDetails(username);
 	
 	int userid = dsu.getId();
 	

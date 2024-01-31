@@ -1,15 +1,14 @@
 package com.ds.snackapp.controller;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -106,14 +105,36 @@ public class ViewController {
 	}
 	*/
 	@GetMapping("/admin/snackassignmentform")
-	private ModelAndView showAssignmentForm(ModelAndView model, Principal principal) {
+	private ModelAndView showAssignmentForm(ModelAndView model, Principal principal,HttpSession ss) {
 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String uname = authentication.getName();
+		
+		Dsusers dsu = userservice.fetchUserDetails(uname);
+		
+		ss.setAttribute("empname", dsu.getName());
+				
 		String username = principal.getName();
+		
+		boolean assignmentTime = assignmentservice.checkAssignmentTime();
+		String employeeName = dsu.getName();
+		
+		if(assignmentTime == false)
+		{
+			model.addObject("employeename", employeeName);
+			model.addObject("assignmenttime", "Time is Over to Make a Snack Assignment");
+			model.addObject("assignmenttimeerror", "Please make a Snack Assignment Before 12:30 PM");
+			model.setViewName("/snackassignment/Snackassignmentform.jsp");
+			return model;
+		}
 		
 		List<Assignment> a = assignmentservice.getAssignmentDetails();
 		
 		if(a.size()>0)
 		{
+			Authentication an = SecurityContextHolder.getContext().getAuthentication();
+			String un = authentication.getName();
+			System.out.println("username is" + un);
 			return new ModelAndView("redirect:/admin/adminhomepage");
 
 		}

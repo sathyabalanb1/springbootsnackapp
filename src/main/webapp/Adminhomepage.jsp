@@ -6,11 +6,6 @@
 <html>
 <head>
 <style>
-
-body{
-	background: url("/img/admindashboardbackground.jpg");
-}
-
 .grad1 {
   height: auto;
   background-color: red; /* For browsers that do not support gradients */
@@ -54,6 +49,8 @@ justify-content: center;
 <link href="../css/noassignment.css" rel="stylesheet" />
 </head>
 <body>
+
+${ename}
 	<%@include file="./headerfooter/header.jsp"%>
 
 	<p>Hi <b style="color:green;">${authenticatedperson}</b></p>
@@ -65,9 +62,9 @@ justify-content: center;
 
 	<div class="container">
 		<div class="row">
-			<h5>
-				<b style="color:red;background-color:black;">Employee Details</b>
-			</h5>
+			<p>
+				<b>Employee Details</b>
+			</p>
 		</div>
 
 		<div class="row boxescenter">
@@ -106,9 +103,9 @@ justify-content: center;
 			</c:when>
 		</c:choose>
 		<div class="row">
-			<h5>
-				<b style="color:red;background-color:black;">Today Selection Details</b>
-			</h5>
+			<p>
+				<b>Today Selection Details</b>
+			</p>
 		</div>
 
 		<div class="row" style="margin-bottom:10px;">

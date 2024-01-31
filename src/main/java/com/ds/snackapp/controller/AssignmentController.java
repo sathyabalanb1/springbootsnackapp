@@ -1,8 +1,6 @@
 package com.ds.snackapp.controller;
 
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.dto.AssignmentDTO;
 import com.ds.snackapp.entity.Assignment;
+import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Snack;
 import com.ds.snackapp.entity.Vendor;
 import com.ds.snackapp.service.AssignmentService;
+import com.ds.snackapp.service.DsuserService;
 import com.ds.snackapp.service.SnackService;
 import com.ds.snackapp.service.VendorService;
 
@@ -31,6 +31,9 @@ public class AssignmentController {
 	
 	@Autowired
 	private SnackService snackservice;
+	
+	@Autowired
+	private DsuserService userservice;
 /*
 	@PostMapping("/addassignment")
 	public String addAssignment(@RequestParam("dates") String date,AssignmentDTO assignment, Model model)
@@ -53,14 +56,22 @@ public class AssignmentController {
 	}
 */
 	@PostMapping("/addassignment")
-	public ModelAndView addAssignment(@RequestParam("dates") String date,AssignmentDTO assignment)
+	public ModelAndView addAssignment(@RequestParam("dates") String date,AssignmentDTO assignment,Principal principal)
 	{
+		ModelAndView model = new ModelAndView();		
+
+		//String username = principal.getName();
+		
+		//Dsusers dsu = userservice.fetchUserDetails(username);
+		
+		//String employeeName = dsu.getName();
+		
+		
 		String message = assignmentservice.createAssignment(assignment,date);
 		
 		List<Snack>sns = snackservice.getSnacks();
 		List<Vendor>vns = vendorservice.getVendors();
 		
-		ModelAndView model = new ModelAndView();		
 				
 		if(message == null)
 		{

@@ -119,14 +119,7 @@ public class ViewController {
 		boolean assignmentTime = assignmentservice.checkAssignmentTime();
 		String employeeName = dsu.getName();
 		
-		if(assignmentTime == false)
-		{
-			model.addObject("employeename", employeeName);
-			model.addObject("assignmenttime", "Time is Over to Make a Snack Assignment");
-			model.addObject("assignmenttimeerror", "Please make a Snack Assignment Before 12:30 PM");
-			model.setViewName("/snackassignment/Snackassignmentform.jsp");
-			return model;
-		}
+		
 		
 		List<Assignment> a = assignmentservice.getAssignmentDetails();
 		
@@ -143,6 +136,15 @@ public class ViewController {
 			model.addObject("noassignment","Today's Snack is not yet Assigned");
 		}
 		
+		if(assignmentTime == false)
+		{
+			model.addObject("employeename", employeeName);
+			model.addObject("assignmenttime", "Time is Over to Make a Snack Assignment");
+			model.addObject("assignmenttimeerror", "Please make a Snack Assignment Before 12:30 PM");
+			model.setViewName("/snackassignment/Snackassignmentform.jsp");
+			return model;
+		}
+		
 		List<Snack>sns = snackservice.getSnacks();
 		List<Vendor>vns = vendorservice.getVendors();
 		model.addObject("snacklist", sns);
@@ -151,9 +153,10 @@ public class ViewController {
 
 		return model;
 	}
+	/*
 	@GetMapping("/assignmentupdateform")
-	public String showAssignmentUpdateForm(@RequestParam("aid") int assignmentid, Model model)
-	{
+	public String showAssignmentUpdateForm(@RequestParam("aid") int assignmentid, Model model,Principal principal)
+	{	
 		String snackname = assignmentservice.getAssignmentById(assignmentid);
 		List<Snack>sns = snackservice.getSnacks();
 		List<Vendor>vns = vendorservice.getVendors();
@@ -163,7 +166,37 @@ public class ViewController {
 		model.addAttribute("assignmentid", assignmentid);
 		return "snackassignment/Updatesnackassignmentform.jsp";
 	}
-	
+	*/
+	@GetMapping("/assignmentupdateform")
+	public ModelAndView showAssignmentUpdateForm(@RequestParam("aid") int assignmentid, Principal principal)
+	{	
+		ModelAndView model = new ModelAndView();
+		
+        String username = principal.getName();
+        
+        Dsusers dsu = userservice.fetchUserDetails(username);
+		
+		boolean assignmentTime = assignmentservice.checkAssignmentTime();
+		
+		if(assignmentTime == false)
+		{
+			model.addObject("employeename", dsu.getName());
+			model.addObject("assignmenttime", "Time is Over to Edit a Snack Assignment");
+			model.addObject("edittimeerror", "Please make a Snack Assignment Edit Before 12:30 PM");
+			model.setViewName("/snackassignment/Updatesnackassignmentform.jsp");
+			return model;
+		}
+		
+		String snackname = assignmentservice.getAssignmentById(assignmentid);
+		List<Snack>sns = snackservice.getSnacks();
+		List<Vendor>vns = vendorservice.getVendors();
+		model.addObject("snackname", snackname);
+		model.addObject("snacklist", sns);
+		model.addObject("vendorlist",vns);
+		model.addObject("assignmentid", assignmentid);
+		model.setViewName("/snackassignment/Updatesnackassignmentform.jsp");
+		return model;
+	}
 	@GetMapping("/allemployees")
 	public String fetchAllEmployees(Model model)
 	{

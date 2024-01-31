@@ -14,8 +14,6 @@
 <meta charset="UTF-8">
 <title>Report Page</title>
 <style type="text/css">
-
-
 .ui-datepicker{
 	background: aquamarine;
 	box-shadow: 0px 0px 13px 10px grey;
@@ -40,6 +38,8 @@ padding-right: 12px;
 color:black;
 padding-right:10px;
 }
+
+
 </style>
 
 </head>

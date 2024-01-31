@@ -55,7 +55,35 @@
 		</table>
 	</form>
 -->
-<div class="container my-5">
+	<c:choose>
+			<c:when test="${edittimeerror != null}">
+			<div class="container my-5">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">Snack Assignment</h4>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<p>
+										Dear <b style="color: green;">${employeename}</b>
+									</p>
+								</div>
+								<div class="mb-3">
+									<p>${assignmenttime}</p>
+								</div>
+								<div class="mb-3">
+									<p>${edittimeerror}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</c:when>
+			<c:otherwise>
+			<div class="container my-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				<div class="card">
@@ -103,6 +131,11 @@
 			</div>
 		</div>
 	</div>
+			
+</c:otherwise>
+			
+		</c:choose>
+	
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 <%@include file="../headerfooter/footer.jsp"%>
 

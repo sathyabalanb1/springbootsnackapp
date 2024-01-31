@@ -75,10 +75,10 @@ justify-content: normal;
 	
     </security:authorize>
 	<security:authorize access="isAuthenticated() and hasAuthority('User')">
-		<nav class="navbar">
+		<nav class="navbar" style="width:100%;justify-content:normal;">
 	<img src="../img/dsquadlogo.png" alt="Dsquad"/>
-	<p><%= sharedData %></p>
-	<ul class="nav-links">
+	<span><i class="fa fa-user-alt" style="margin-right:5px;"></i><%= sharedData %></span>
+	<ul class="nav-links" style="padding-left:29%;">
 	<div class="menu">
 		<li><a href="/common/snackselectionform">ChooseSnack</a></li>
 			<li><a href="/logout">Logout</a></li>

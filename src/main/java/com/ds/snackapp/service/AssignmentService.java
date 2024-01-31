@@ -82,7 +82,9 @@ public class AssignmentService {
 		// Assignment ass = assignmentrepository.findById(1).orElse(null);
 		// System.out.println(ass.getVendor().getVendorname());
 
-		List<Assignment> ass = assignmentrepository.findAll();
+	//	List<Assignment> ass = assignmentrepository.findAll();
+		
+		List<Assignment> ass = assignmentrepository.findAllByOrderByIdDesc();
 
 		return ass;
 	}
@@ -168,7 +170,7 @@ public class AssignmentService {
         
         LocalDateTime predefinedTime = LocalDateTime.of(
                 currentDateTime.toLocalDate(),  // Today's date
-                LocalTime.of(20, 30, 00)              // 6:30 PM
+                LocalTime.of(12, 30, 00)              // 6:30 PM
         );
         
         long predefinedmilliseconds = predefinedTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();

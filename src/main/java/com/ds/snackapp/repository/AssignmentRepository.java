@@ -15,5 +15,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment,Integer> 
 	public Assignment findBySnack(Snack sn);
 	
 	public Assignment findByVendor(Vendor vn);
+	
+	public List<Assignment> findAllByOrderByIdDesc();
 
 }

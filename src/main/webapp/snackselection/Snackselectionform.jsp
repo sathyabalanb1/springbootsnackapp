@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -25,6 +26,8 @@ color:white;
 </style>
 </head>
 <body>
+	<security:authorize access="isAuthenticated() and hasAnyAuthority('SuperAdmin','Admin')">
+
 	<%@include file="../headerfooter/header.jsp"%>
 
 
@@ -99,51 +102,7 @@ color:white;
 			</div>
 		</c:when>
 		<c:otherwise>
-			<!--  
-	<form action="/insertselection" method="post">
-		<table>
-			<caption>Snack Selection Form</caption>
-			<tr>
-				<td>Present Date</td>
-				<td><input type="text" name="assigneddate" id="assigneddate"
-					value="${assigneddate}" readonly></td>
-				<br>
-				<br>
-			</tr>
-			<tr>
-				<td>Assigned Snack</td>
-				<td><input type="text" name="assigneddate" id="assigneddate"
-					value="${snackname}" readonly></td>
-				<br>
-				<br>
-			</tr>
-			<tr>
-				<td>Purchased Vendor</td>
-				<td><input type="text" name="assigneddate" id="assigneddate"
-					value="${vendorname}" readonly></td>
-				<br>
-				<br>
-			</tr>
-			<tr>
-				<td><input type="radio" name="enabled" value="True">Yes</input></td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="enabled" value="False">No</input></td>
-			</tr>
-			<tr>
-				<td><input type="hidden" name="dsuser" value="${userid}"></td>
-			</tr>
-			<tr>
-				<td><input type="hidden" name="assignment" value="${assignmentid}"></td>
-			</tr>
-			<tr>
-				<td>Submit</td>
-				<td><input type="submit" value="submit"></td>
-			</tr>	
-		</table>
-	</form>
--->
-
+			
 			<div class="container my-5">
 				<div class="row justify-content-center">
 					<div class="col-md-6">
@@ -191,8 +150,140 @@ color:white;
 		</c:otherwise>
 	</c:choose>
 	<%@include file="../headerfooter/footer.jsp"%>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
+	    </security:authorize>
+	    
+<!--   User End Snack Selection Form -->
+
+	<security:authorize access="isAuthenticated() and hasAuthority('User')">
+	<%@include file="../headerfooter/userheader.jsp"%>
+	<c:choose>
+		<c:when test="${choosesnackerror != null}">
+			<div class="container my-5">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">Assignment Info</h4>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<p>Dear <b style="color:green;">${empname}</b></p>
+								</div>
+								<div class="mb-3">
+									<p>${choosesnackerror}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		<c:when test="${selectiontimeerror != null}">
+			<div class="container my-5">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">ChooseSnack Info</h4>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<p>Dear <b style="color:green;">${empname}</b></p>
+								</div>
+								<div class="mb-3">
+									<p>${selectiontimeerror}</p>
+								</div>
+								<div class="mb-3">
+									<p>${selectiontimeinfo}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		<c:when test="${selectionvalue != null}">
+			<div class="container my-5">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">Snack Selection Info</h4>
+							</div>
+							<div class="card-body">
+								<div class="mb-3">
+									<p>Dear <b style="color:green;">${empname}</b></p>
+								</div>
+								<div class="mb-3">
+									<p>You have chosen <b>${selectionvalue}</b> for Today's Snack</p>
+								</div>
+								<div class="mb-3 snackappformbutton">
+									<button class="editselection btn btn-primary"><a href="/common/snackselectionupdate">Edit Selection</a></button>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		<c:otherwise>
+			
+			<div class="container my-5">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">Choose Your Snack</h4>
+							</div>
+							<div class="card-body">
+								<form action="/insertselection" method="post">
+									<div class="mb-3">
+										<label for="username" class="form-label">Present Date</label>
+										<input type="text" class="form-control" name="assigneddate"
+											id="assigneddate" value="${assigneddate}" readonly>
+									</div>
+									<div class="mb-3">
+										<label for="assignedsnack" class="form-label">Assigned
+											Snack</label> <input type="text" class="form-control"
+											name="assigneddate" id="assignedsnack" value="${snackname}"
+											readonly>
+									</div>
+									<div class="mb-3">
+										<label for="purchasedvendor" class="form-label">Purchased
+											Vendor</label> <input type="text" class="form-control"
+											name="purchasedvendor" id="purchasedvendor"
+											value="${vendorname}" readonly>
+									</div>
+									<div class="mb-3">
+										<input type="radio" name="enabled" value="True">Yes</input>
+									</div>
+									<div class="mb-3">
+										<input type="radio" name="enabled" value="False">No</input>
+									</div>
+									<input type="hidden" name="dsuser" value="${userid}"> <input
+										type="hidden" name="assignment" value="${assignmentid}">
+									<div class="mb-3 snackappformbutton">
+									<button type="submit" class="btn btn-primary">Choose</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</c:otherwise>
+	</c:choose>
+	
+	<%@include file="../headerfooter/footer.jsp"%>
+	
+		</security:authorize>
+	
+	
+	
 
 </body>
+<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 </html>

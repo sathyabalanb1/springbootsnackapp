@@ -22,9 +22,11 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired
 	UserDetailService userDetailService;
+
 	
 	public AuthenticationProvider authProvider() {
 		DaoAuthenticationProvider daoAuth = new DaoAuthenticationProvider();
+		UserDetailService uds = userDetailService;
 		daoAuth.setUserDetailsService(userDetailService);
 	 //   daoAuth.setPasswordEncoder(bcrypt());
 		daoAuth.setPasswordEncoder(getPasswordEncoder());
@@ -85,7 +87,8 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/common/**","/name").hasAnyAuthority("SuperAdmin", "User","Admin")
 		.anyRequest().authenticated()
 				.and().formLogin().loginPage("/signin")
-				.loginProcessingUrl("/login")
+				.loginProcessingUrl("/login").permitAll()
+				
 				.successHandler((request, response, authentication) -> {
 	                for (GrantedAuthority authority : authentication.getAuthorities()) {
 	                    if (authority.getAuthority().equals("SuperAdmin")) {
@@ -99,7 +102,6 @@ public class SpringConfig extends WebSecurityConfigurerAdapter{
 	                }
 	                response.sendRedirect("/common/snackselectionform");
 	            })
-				.permitAll()
 				//.failureUrl("/invalid").permitAll()
 				.and()
 				.logout().logoutSuccessUrl("/logoutpage")

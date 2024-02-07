@@ -93,11 +93,11 @@ public class SnackController {
 	@GetMapping("/admin/deletesnack")
 	public ModelAndView deleteProduct(@RequestParam("id") int snackid) {
 		
-			Assignment ass = assignservice.getAssignedSnack(snackid);
+			List<Assignment> ass = assignservice.getAssignedSnack(snackid);
 		 
-			if(ass != null)
+			if(ass.size()>0)
 			{
-			   return new ModelAndView("redirect:/admin/snacks?snackdelete="+ass.getSnack().getSnackname());
+			   return new ModelAndView("redirect:/admin/snacks?snackdelete="+ass.get(0).getSnack().getSnackname());
 			}
 			else
 			{

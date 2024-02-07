@@ -96,10 +96,11 @@ public class AssignmentController {
 	public String fetchAllAssignments(Model model)
 	{
 		List<Assignment>assignments = assignmentservice.getAssignments();
-		
 		String currentdate = assignmentservice.pickPresentDate();
 		
 		model.addAttribute("assignments", assignments);
+		
+		
 		
 		model.addAttribute("currentdate", currentdate);
 

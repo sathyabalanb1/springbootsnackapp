@@ -116,7 +116,7 @@ public class SelectionService {
         
         LocalDateTime predefinedTime = LocalDateTime.of(
                 currentDateTime.toLocalDate(),  // Today's date
-                LocalTime.of(20, 11, 00)              // 6:30 PM
+                LocalTime.of(19, 30, 00)              // 6:30 PM
         );
         
         long predefinedmilliseconds = predefinedTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();

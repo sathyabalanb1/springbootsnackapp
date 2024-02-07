@@ -12,7 +12,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment,Integer> 
 	
 	public List<Assignment> findByAssigneddate(String assigneddate);
 	
-	public Assignment findBySnack(Snack sn);
+	public List<Assignment> findBySnack(Snack snackid);
 	
 	public Assignment findByVendor(Vendor vn);
 	

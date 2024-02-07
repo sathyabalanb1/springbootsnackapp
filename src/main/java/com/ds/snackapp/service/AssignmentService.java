@@ -119,13 +119,17 @@ public class AssignmentService {
 		return assments;
 	}
 	
-	public Assignment getAssignedSnack(int snackid)
+	public List<Assignment> getAssignedSnack(int snackid)
 	{
-		Snack sn = snackrepository.getById(snackid);
+	//	Snack sn = snackrepository.getById(snackid);
 		
-		return assignmentrepository.findBySnack(sn);
+		Snack sn = snackrepository.findById(snackid).orElse(null);
+		List<Assignment> n=assignmentrepository.findBySnack(sn);
+		
+		int listsize = n.size();
+		System.out.println(listsize);
+		return n;
 	}
-	
 	public int isValidDate(String reportdate)
 	{
 		List<Assignment> an = assignmentrepository.findByAssigneddate(reportdate);
@@ -170,7 +174,7 @@ public class AssignmentService {
         
         LocalDateTime predefinedTime = LocalDateTime.of(
                 currentDateTime.toLocalDate(),  // Today's date
-                LocalTime.of(12, 30, 00)              // 6:30 PM
+                LocalTime.of(20, 30, 00)              // 6:30 PM
         );
         
         long predefinedmilliseconds = predefinedTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();

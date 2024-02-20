@@ -88,8 +88,7 @@ li {
 
 .services:hover .dropdown {
   display: block;
-    z-index:1;
-  
+   z-index:1;
 }
 
 .card-header{

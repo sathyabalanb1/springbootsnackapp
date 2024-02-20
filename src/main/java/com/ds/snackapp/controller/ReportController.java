@@ -59,33 +59,6 @@ public class ReportController {
 		
 		return new ResponseEntity<>(s, HttpStatus.OK);
 
-		/*
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startdate);
-
-
-		try {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-            System.out.println(inputFormat.getCalendar());
-            Date sdate = inputFormat.parse(startdate);
-            Date edate = inputFormat.parse(enddate);
-
-            SimpleDateFormat soutputFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-            String formattedStartDate = soutputFormat.format(sdate);
-
-            SimpleDateFormat eoutputFormat = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
-            String formattedEndDate = eoutputFormat.format(edate);
-            System.out.println(sdate);
-            System.out.println(edate);
-            System.out.println("Formatted Date: " + formattedStartDate);
-            System.out.println("Formatted Date: " + formattedEndDate);
-
-	        } catch (ParseException e) {
-	            e.printStackTrace();
-	        }
-		 */
-
-
 	}
 
 	/*

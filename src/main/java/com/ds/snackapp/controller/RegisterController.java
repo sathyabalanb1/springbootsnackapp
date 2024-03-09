@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Dsusers;
+import com.ds.snackapp.securityconfig.UserDetailService;
 import com.ds.snackapp.service.DsuserService;
 @Controller
 public class RegisterController {
 
 	@Autowired
 	private DsuserService service;
+	
+	private UserDetailService userDetailService;
 	
 	  @PostMapping("/addDsuser") 
 	  public String addDsuser(Dsusers dsuser,Model model) {
@@ -90,5 +93,49 @@ public class RegisterController {
 		return new ModelAndView("redirect:/allemployees");
 		
 	}
+	
+	@PostMapping("/forgotpassword")
+	public String forgotPasswordProcess(@RequestParam("username") String email,Model model)
+	{
+		Dsusers user = service.fetchUserDetails(email);
+		
+		if(user != null)
+		{
+			model.addAttribute("user", user);
+			return "Resetpassword.jsp";
+		}
+		
+		model.addAttribute("errormessage", "User Doesn't Exist");
+		return "Forgotpassword.jsp";
+	}
+	
+	@PostMapping("/resetpassword")
+	public String resetPasswordProcess(@RequestParam("newpassword") String newpassword, @RequestParam("oldpassword") String oldpassword,
+			                   @RequestParam("email") String email,Model model)
+	{
+		System.out.println("abcdefghijklmnopq");
+		boolean validpassword = newpassword.equals(oldpassword);
+		
+		if(validpassword == true)
+		{
+			model.addAttribute("samepassword","New Password should be differ from Old Password");
+			return "Resetpassword.jsp";
+		}
+		
+		//int employeeid = empid;
+		System.out.println("zxywvsisis");
+		Dsusers user = service.fetchUserDetails(email);
+		
+		service.unlockWhenTimeExpired(user);
+		
+		service.updatePassword(user.getId(),newpassword);
+		
+		return "Loginform.jsp";
+		
+		
+	}
+	
+	
+	
 
 }

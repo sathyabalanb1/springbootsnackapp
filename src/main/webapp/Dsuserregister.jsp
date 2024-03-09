@@ -15,6 +15,10 @@
 <c:if test="${info == true}">
 <p>You have successfully registered</p>
 </c:if>
+
+<c:if test="${param.error != null}">
+<p>[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+</c:if>
  <!--     
 	<form name="myForm" id="myForm" action="/addDsuser" method="post">
 		<table>

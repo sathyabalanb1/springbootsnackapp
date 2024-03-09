@@ -106,9 +106,25 @@ public class CommonViewController {
 		return "Dsuserregister.jsp";
 	}
 	
+	/*
 	@GetMapping("/signin")
+	//@GetMapping("/login")
 	private String showLoginForm() {
 
+		return "Loginform.jsp";
+	}
+	*/
+	
+	@GetMapping("/signin")
+	private String showLoginForm() {
+		//@RequestParam(required=false) String error, Model model
+		/*
+		if(error != null)
+		{
+		model.addAttribute("loginerror", "Bad Credentials");
+		}
+		*/
+		System.out.println("Now we are displaying signin form");
 		return "Loginform.jsp";
 	}
 	
@@ -227,6 +243,13 @@ public class CommonViewController {
 		
 		return model;
 
+	}
+	
+	@GetMapping("/displayforgotpasswordform")
+	public String showForgotPasswordForm()
+	{
+		System.out.println("Now we are ready to update password");
+		return "Forgotpassword.jsp";
 	}
 	
 

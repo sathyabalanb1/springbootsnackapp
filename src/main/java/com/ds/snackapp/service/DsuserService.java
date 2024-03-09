@@ -1,9 +1,13 @@
 package com.ds.snackapp.service;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.dto.LoginDTO;
 import com.ds.snackapp.entity.Dsusers;
@@ -12,11 +16,20 @@ import com.ds.snackapp.repository.DsuserRepository;
 import com.ds.snackapp.repository.RoleRepository;
 
 @Service
+@Transactional
 public class DsuserService {
 	@Autowired
 	private DsuserRepository repository;
 	@Autowired
 	private RoleRepository rolerepository;
+	
+    public static final int MAX_FAILED_ATTEMPTS = 3;
+    
+//	private static final long LOCK_TIME_DURATION = 30 * 60 * 1000;
+	
+	private static final long LOCK_TIME_DURATION = 1 * 60 * 1000;
+
+	
 	//@Autowired
 //	private CommonFunctions common;
 /*	
@@ -49,7 +62,7 @@ public class DsuserService {
   
   if (existinguser != null) {
 	  return null; 
-	  } else { 
+	  } else { 																
  
   repository.save(dsuser);
   
@@ -146,6 +159,92 @@ public class DsuserService {
 	{
 		return repository.findAll();
 	}
+	
+	public void updatePassword(int empid,String newpassword)
+	{
+		Dsusers user = repository.findById(empid).orElse(null);
+		
+		user.setPassword(newpassword);
+		
+		String ps = user.getPassword();
+		
+		repository.save(user);
+		
+		return;
+		
+	}
+	
+	public void increaseFailedAttempts(Dsusers user) {
+        int newFailAttempts = user.getFailedAttempt() + 1;
+        repository.updateFailedAttempts(newFailAttempts, user.getEmail());
+    }
+ 
+ public void resetFailedAttempts(String email) {
+        repository.updateFailedAttempts(0, email);
+    }
+ 
+ public void lock(Dsusers user) {
+        user.setAccountNonLocked(false);
+        user.setLockTime(new Date());         
+        repository.save(user);
+    }
+ public boolean unlockWhenTimeExpired(Dsusers user) {
+        long lockTimeInMillis = user.getLockTime().getTime();
+        long currentTimeInMillis = System.currentTimeMillis();
+         
+        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
+            user.setAccountNonLocked(true);
+            user.setLockTime(null);
+            user.setFailedAttempt(0);
+             
+            repository.save(user);
+             
+            return true;
+        }
+         
+        return false;
+    }
+ 
+ public long[] getRemainingTime(Dsusers user) {
+	 long lockTimeInMillis = user.getLockTime().getTime();
+	 long currentTimeInMillis = System.currentTimeMillis();
+	 
+	 long remainingTimeInMillis = currentTimeInMillis - lockTimeInMillis;
+	 
+	 long minutesandseconds[] = convertMillisToMinutesAndSeconds(remainingTimeInMillis);
+	 
+	 return minutesandseconds;
+	 
+ }
+ public long[] convertMillisToMinutesAndSeconds (long millis)
+ {
+	 long totalSeconds = millis / 1000;
+     long minutes = totalSeconds / 60;
+     long seconds = totalSeconds % 60;
+     
+     long arr[]=new long[2];
+     
+     arr[0]=minutes;
+     arr[1]=seconds;
+     
+     return arr;          
+ }
+ 
+ public ModelAndView redirectToResetPassword(Dsusers user) {
+	boolean accountstatus = user.isAccountNonLocked();
+	
+	if(accountstatus == false)
+	{
+		return new ModelAndView("redirect:/displayforgotpasswordform");
+	}
+	else
+	{
+		return new ModelAndView("redirect:/signin");
+	}
+ }
+ 
+ 
+
 	
 
 }

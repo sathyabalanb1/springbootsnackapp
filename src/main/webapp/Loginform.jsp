@@ -16,18 +16,35 @@
 	<!--<c:if test="${validuser==true}"><p>You have successfully logged in</p></c:if> -->
 
 	<c:if test="${info==false}">
-		<p style="color: red;">Invalid Login Credentials</p>
+		<p>Invalid Login Credentials</p>
 	</c:if>
-
+ 
 	<c:if test="${param.error!=null}">
 		<p style="color: red;">Username or Password May be Incorrect</p>
 	</c:if>
-
+	
+	<c:if test="${param.error!=null}">
+		<p style="color: red;">"${param}"</p>
+	</c:if>
+	
+	<c:if test="${accountlockerror eq 'true'}">
+		<p style="color: red;">Account is Locked</p>
+	</c:if>
+	<c:if test="${param.loginerror != null}">
+    <p style="color: red;">Invalid Login Credentials abcdefghijklmnopqrstuvwxyz</p>
+    </c:if>
 	
 	<c:if test="${param.logout != null}">
 		<div class="alert alert-success">You have been logged out
 			successfully.</div>
 	</c:if>
+ 	
+	<c:if test="${param.error!=null}">
+    <div class="text-danger">
+        <p>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}isisi</p>
+    </div>
+</c:if>
+
 	<!-- 
 <form action="/login" method="post">
 		<table>

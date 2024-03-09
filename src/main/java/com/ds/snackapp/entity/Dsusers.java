@@ -1,6 +1,7 @@
 package com.ds.snackapp.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name = "dsusers")
 public class Dsusers {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	
@@ -43,7 +44,38 @@ public class Dsusers {
     @UpdateTimestamp
     @Column(columnDefinition = "TIMESTAMP",insertable = false)
     private LocalDateTime updatetime ;
+    
+    // below three are new columns
+    
+    @Column(name = "account_non_locked", nullable = false, columnDefinition = "boolean default true")
+    private boolean accountNonLocked = true;
+         
+    @Column(name = "failed_attempt")
+    private int failedAttempt;
+         
+    @Column(name = "lock_time")
+    private Date lockTime;
 
+    
+    public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+	public int getFailedAttempt() {
+		return failedAttempt;
+	}
+	public void setFailedAttempt(int failedAttempt) {
+		this.failedAttempt = failedAttempt;
+	}
+	public Date getLockTime() {
+		return lockTime;
+	}
+	public void setLockTime(Date lockTime) {
+		this.lockTime = lockTime;
+	}
+	
 	
 	public Role getRoleid() {
 		return roleid;
@@ -88,6 +120,12 @@ public class Dsusers {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}		
 	
 }

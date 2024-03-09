@@ -7,21 +7,35 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.entity.Role;
 
 public class UserPrinciple implements UserDetails {
 	
+	private Dsusers us; // new field
 	private static final long serialVersionUID = 3136550751607020144L;
 	private String username;
 	private String password;
 	private transient Role authorities;
 
+	
+	
 	public UserPrinciple(Dsusers dsuser) {
+		/*
+		boolean accountstatus = dsuser.isAccountNonLocked();
+		
+		if(accountstatus == false)
+		{
+			return new ModelAndView("redirect:/displayforgotpasswordform");
+		}
+		*/
+		
 		this.username = dsuser.getEmail();
 		this.password = dsuser.getPassword();
 		this.authorities = dsuser.getRoleid();
+		this.us = dsuser;  // new change
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities(){
@@ -50,7 +64,11 @@ public class UserPrinciple implements UserDetails {
 	@Override
 	public boolean isAccountNonLocked()
 	{
-		return true;
+		//return true;
+		
+		boolean ans = us.isAccountNonLocked();
+		
+		return us.isAccountNonLocked();
 	}
 	
 	@Override
@@ -63,6 +81,12 @@ public class UserPrinciple implements UserDetails {
 	public boolean isEnabled()
 	{
 		return true;
+	}
+	public Dsusers getUs() {
+		return us;
+	}
+	public void setUs(Dsusers us) {
+		this.us = us;
 	}
 
 }

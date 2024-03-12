@@ -11,10 +11,18 @@
 </head>
 <body>
 <%@include file="./headerfooter/header.jsp"%>
-
 <c:if test="${errormessage != null}">
 <p>${errormessage}</p>
 </c:if>
+<%-- 
+ <c:set var="mm" value="balanceminutes"></c:set> --%>
+ <c:if test="${balanceminutes > 0 }">
+<p style="color: red;">Your account was locked due to 3 unsuccessful login attempts</p>
+<p style="color: red;">Right Now You won't be allowed to perform Forgot Password Action</p>
+<p style="color: red;">Please perform this action after ${balanceminutes} minutes</p>
+</c:if>
+
+
 
 	<div class="container my-5">
 		<div class="row justify-content-center">
@@ -44,5 +52,7 @@
 </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 	<%@include file="./headerfooter/footer.jsp"%>
+	
+	
 
 </html>

@@ -1,6 +1,13 @@
 package com.ds.snackapp.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Dsusers;
+import com.ds.snackapp.securityconfig.CustomLoginSuccessHandler;
 import com.ds.snackapp.securityconfig.UserDetailService;
 import com.ds.snackapp.service.DsuserService;
 @Controller
@@ -17,30 +25,48 @@ public class RegisterController {
 	@Autowired
 	private DsuserService service;
 	
+	@Autowired
 	private UserDetailService userDetailService;
 	
-	  @PostMapping("/addDsuser") 
-	  public String addDsuser(Dsusers dsuser,Model model) {
-	  
-	 // System.out.println("we going to add a product");
-	  
-	  // Dsusers createDsuser = service.createDsuser(dsuser);
-	  
-	  String message = service.createDsuser(dsuser);
-	  
-	  if(message == null) {
-		  model.addAttribute("info",false); 
-		  return "Dsuserregister.jsp";
-		//  return "/authentication/Dsuserregister.jsp";
+	@Autowired
+	private CustomLoginSuccessHandler successHandler;
 
-	  }
-	   else {
-	   model.addAttribute("info", true); 
-	   return "Dsuserregister.jsp"; 
-	 //  return "/authentication/Dsuserregister.jsp";
-	   }
-	 
+	@PostMapping("/addDsuser") 
+	public void addDsuser(Dsusers dsuser,Model model,HttpServletRequest request,HttpServletResponse response) {
+		
+		/*
+		String message = service.createDsuser(dsuser);
 
+		if(message == null) {
+			model.addAttribute("info",false); 
+			return "Dsuserregister.jsp";
+
+		}
+		else {
+			model.addAttribute("info", true); 
+			return "Dsuserregister.jsp"; 
+		}
+		*/
+		
+		Dsusers uss = service.createDsuser(dsuser);
+		
+	//	UserDetails userDetails = this.customUserServiceDetails.loadUserByUsername((String) attributes.get("email"));
+		try {
+		UserDetails userDetails = userDetailService.loadUserByUsername(uss.getEmail());
+		
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),
+				                        userDetails.getPassword(),userDetails.getAuthorities());
+		
+		if(authentication.isAuthenticated())
+		{		
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        successHandler.onAuthenticationSuccess(request,response,authentication);
+		}	
+		}
+		catch (Exception e) {
+	      //  log.error(e.getMessage(), e);
+			System.out.println(e.getMessage());
+	    }
 		//	ModelAndView modelAndView = new ModelAndView();
 		//	modelAndView.addObject( "status",createDsuser);
 		//	modelAndView.setViewName("Dsuserregister.jsp");
@@ -48,6 +74,7 @@ public class RegisterController {
 		//	model.addAttribute("status", createDsuser);
 
 		//	return "Dsuserregister.jsp";
+		return;
 	}
 	/*
 	@PostMapping("/validUser")
@@ -81,61 +108,76 @@ public class RegisterController {
 	public ModelAndView makeAdmin(@RequestParam("id") int userid)
 	{
 		String ans = service.promoteAdmin(userid);
-		
+
 		return new ModelAndView("redirect:/allemployees");
-		
+
 	}
 	@GetMapping("/removeadmin")
 	public ModelAndView removeAdmin(@RequestParam("id") int userid)
 	{
 		String ans = service.depromoteAdmin(userid);
-		
+
 		return new ModelAndView("redirect:/allemployees");
-		
+
 	}
-	
+
 	@PostMapping("/forgotpassword")
 	public String forgotPasswordProcess(@RequestParam("username") String email,Model model)
 	{
 		Dsusers user = service.fetchUserDetails(email);
-		
+
 		if(user != null)
-		{
+		{ 
+			if(user.getLockTime() != null)
+			{
+				if(!service.isLockTimeExpired(user))
+				{
+					long balanceMinutes = service.getRemainingTime(user);
+
+					model.addAttribute("balanceminutes", balanceMinutes);
+					System.out.println(balanceMinutes);
+					return "Forgotpassword.jsp";
+				}
+			}
 			model.addAttribute("user", user);
 			return "Resetpassword.jsp";
 		}
-		
-		model.addAttribute("errormessage", "User Doesn't Exist");
-		return "Forgotpassword.jsp";
+		else {
+			model.addAttribute("errormessage", "User Doesn't Exist");
+			return "Forgotpassword.jsp";
+		}
+
 	}
-	
+
 	@PostMapping("/resetpassword")
 	public String resetPasswordProcess(@RequestParam("newpassword") String newpassword, @RequestParam("oldpassword") String oldpassword,
-			                   @RequestParam("email") String email,Model model)
+			@RequestParam("email") String email,Model model)
 	{
 		System.out.println("abcdefghijklmnopq");
 		boolean validpassword = newpassword.equals(oldpassword);
-		
+
 		if(validpassword == true)
 		{
 			model.addAttribute("samepassword","New Password should be differ from Old Password");
 			return "Resetpassword.jsp";
 		}
-		
+
 		//int employeeid = empid;
 		System.out.println("zxywvsisis");
 		Dsusers user = service.fetchUserDetails(email);
 		
+		if(user.getLockTime() != null)
+		{
 		service.unlockWhenTimeExpired(user);
-		
+		}
 		service.updatePassword(user.getId(),newpassword);
-		
+
 		return "Loginform.jsp";
-		
-		
+
+
 	}
-	
-	
-	
+
+
+
 
 }

@@ -36,9 +36,11 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		if (user.getFailedAttempt() >= 3) {
 			// super.setTargetUrlParameter("/displayforgotpasswordform");
 			System.out.println("22222");
-			if(!user.isAccountNonLocked())
+			if(!dsUserService.isLockTimeExpired(user))
 			{
-				response.sendRedirect("/signin?accountlockerror=true");
+				long minutes = dsUserService.getRemainingTime(user);
+				
+				response.sendRedirect("/signin?accountlockerror="+minutes);
 			}
 			else
 			{

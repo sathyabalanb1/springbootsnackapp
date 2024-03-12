@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ds.snackapp.controller.CommonViewController;
+import com.ds.snackapp.controller.RegisterController;
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.repository.DsuserRepository;
 
@@ -22,6 +23,9 @@ public class UserDetailService implements UserDetailsService {
 	@Autowired
 	private CommonViewController comControl;
 	
+	@Autowired
+	private RegisterController regCnt;
+	
 	//@Autowired
 	//Model model;
 	
@@ -31,6 +35,7 @@ public class UserDetailService implements UserDetailsService {
 		//HttpSession session;
 		
 		//System.out.println(user.getName());
+		regCnt.forgotPasswordProcess(user.getEmail());
 		if (user == null) {
 			throw new UsernameNotFoundException("user not found");
 		} else {

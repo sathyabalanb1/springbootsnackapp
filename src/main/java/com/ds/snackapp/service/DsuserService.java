@@ -27,7 +27,7 @@ public class DsuserService {
     
 //	private static final long LOCK_TIME_DURATION = 30 * 60 * 1000;
 	
-	private static final long LOCK_TIME_DURATION = 1 * 60 * 1000;
+	private static final long LOCK_TIME_DURATION = 30 * 60 * 1000;
 
 	
 	//@Autowired
@@ -50,7 +50,9 @@ public class DsuserService {
 	}
 */	
 
-  public String createDsuser(Dsusers dsuser) { 
+ // public String createDsuser(Dsusers dsuser) { 
+	  public Dsusers createDsuser(Dsusers dsuser) { 
+
    Role role = rolerepository.findByRolename("User").get(0); 
  
    dsuser.setRoleid(role);
@@ -64,9 +66,11 @@ public class DsuserService {
 	  return null; 
 	  } else { 																
  
-  repository.save(dsuser);
+  Dsusers uss = repository.save(dsuser);
   
-  return "User Registered Successfully"; 
+  return uss;
+  
+ // return "User Registered Successfully"; 
   }
   
   }
@@ -205,29 +209,42 @@ public class DsuserService {
         return false;
     }
  
- public long[] getRemainingTime(Dsusers user) {
+ public long getRemainingTime(Dsusers user) {
 	 long lockTimeInMillis = user.getLockTime().getTime();
 	 long currentTimeInMillis = System.currentTimeMillis();
 	 
-	 long remainingTimeInMillis = currentTimeInMillis - lockTimeInMillis;
+	 long remainingminutes;
 	 
-	 long minutesandseconds[] = convertMillisToMinutesAndSeconds(remainingTimeInMillis);
+	 long lockPeriodInMillis = currentTimeInMillis - lockTimeInMillis;
 	 
-	 return minutesandseconds;
+	 if(lockPeriodInMillis > LOCK_TIME_DURATION)
+	 {
+		remainingminutes = 0; 
+	 }
+	 else
+	 {
+		 long remainingTimeInMillis = LOCK_TIME_DURATION - lockPeriodInMillis;
+	//	 long remainingTimeInMillis = LOCK_TIME_DURATION - currentLockTimeInMillis;
+		 remainingminutes = convertMillisToMinutesAndSeconds(remainingTimeInMillis);
+	 }
+	 
+	 return remainingminutes;
 	 
  }
- public long[] convertMillisToMinutesAndSeconds (long millis)
+ public long convertMillisToMinutesAndSeconds (long millis)
  {
 	 long totalSeconds = millis / 1000;
      long minutes = totalSeconds / 60;
      long seconds = totalSeconds % 60;
-     
+  /*   
      long arr[]=new long[2];
      
      arr[0]=minutes;
      arr[1]=seconds;
      
-     return arr;          
+     return arr;
+  */
+     return minutes;
  }
  
  public ModelAndView redirectToResetPassword(Dsusers user) {
@@ -241,6 +258,18 @@ public class DsuserService {
 	{
 		return new ModelAndView("redirect:/signin");
 	}
+ }
+ 
+ public boolean isLockTimeExpired(Dsusers user)
+ {
+	 long lockTimeInMillis = user.getLockTime().getTime();
+     long currentTimeInMillis = System.currentTimeMillis();
+     
+     if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
+    	 return true;
+     }
+     
+     return false;
  }
  
  

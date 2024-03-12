@@ -116,14 +116,14 @@ public class CommonViewController {
 	*/
 	
 	@GetMapping("/signin")
-	private String showLoginForm() {
+	private String showLoginForm(@RequestParam(required=false) String accountlockerror,Model model) {
 		//@RequestParam(required=false) String error, Model model
-		/*
-		if(error != null)
+		
+		if(accountlockerror != null)
 		{
-		model.addAttribute("loginerror", "Bad Credentials");
+		model.addAttribute("lockminutes", accountlockerror);
 		}
-		*/
+		
 		System.out.println("Now we are displaying signin form");
 		return "Loginform.jsp";
 	}
@@ -246,7 +246,7 @@ public class CommonViewController {
 	}
 	
 	@GetMapping("/displayforgotpasswordform")
-	public String showForgotPasswordForm()
+	public String showForgotPasswordForm(@RequestParam(required=false) boolean forgot)
 	{
 		System.out.println("Now we are ready to update password");
 		return "Forgotpassword.jsp";

@@ -30,6 +30,9 @@
 	<c:if test="${accountlockerror eq 'true'}">
 		<p style="color: red;">Account is Locked</p>
 	</c:if>
+	<c:if test="${lockminutes != null}">
+		<p style="color: red;">Your Account is Locked Due to 3 Unsuccessful Attempts. Please Login After ${lockminutes} minutes</p>
+	</c:if>
 	<c:if test="${param.loginerror != null}">
     <p style="color: red;">Invalid Login Credentials abcdefghijklmnopqrstuvwxyz</p>
     </c:if>
@@ -87,6 +90,9 @@
 							</div>
 							<div class="mb-3 snackappformbutton">
 							<button type="submit" class="btn btn-primary">Login</button>
+							</div>
+							<div class="mb-3 snackappformbutton">
+							<a href="/displayforgotpasswordform?forgot=true">Forgot Password</a>
 							</div>
 						</form>
 					</div>

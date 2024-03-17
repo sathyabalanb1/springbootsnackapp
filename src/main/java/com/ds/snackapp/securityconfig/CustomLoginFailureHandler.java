@@ -31,7 +31,6 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 		if (user != null) {
 			if (user.isAccountNonLocked()) {
 				if (user.getFailedAttempt() > 2) {
-					System.out.println("aaaaa"+":"+user.getFailedAttempt());
 					dsUserService.lock(user);
 					exception = new LockedException("Your account has been locked due to 3 failed attempts."
 							+ " It will be unlocked after 24 hours.");

@@ -4,15 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="../css/footer.css" type="text/css"/>
-
 <title></title>
 </head>
 <body>
-<nav class="navbar">
-<div>
+<footer>
+<div class=footer style="justify-content: center;padding: 8px;background-color: teal;color: #fff;display: flex;">
 @Copyright 2024 reserved by DiligentSquad Technologies Private Limited
 </div>
-</nav>
+</footer>
 </body>
 </html>

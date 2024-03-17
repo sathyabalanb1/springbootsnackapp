@@ -113,6 +113,8 @@ public class ViewController {
 		Dsusers dsu = userservice.fetchUserDetails(uname);
 		
 		ss.setAttribute("empname", dsu.getName());
+		ss.setAttribute("roleid", dsu.getRoleid().getId());
+		ss.setAttribute("currentstatus", "alive");
 				
 		String username = principal.getName();
 		
@@ -264,5 +266,6 @@ public class ViewController {
 	{
 		return "/report/Reportform.jsp";
 	}
+	
 	
 }

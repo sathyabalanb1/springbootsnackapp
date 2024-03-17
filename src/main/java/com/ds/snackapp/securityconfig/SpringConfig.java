@@ -32,7 +32,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
 	*/
 	public AuthenticationProvider authProvider() {
 		DaoAuthenticationProvider daoAuth = new DaoAuthenticationProvider();
-		UserDetailService uds = userDetailService;
+		//UserDetailService uds = userDetailService;
 		daoAuth.setUserDetailsService(userDetailService);
 		// daoAuth.setPasswordEncoder(bcrypt());
 		daoAuth.setPasswordEncoder(getPasswordEncoder());

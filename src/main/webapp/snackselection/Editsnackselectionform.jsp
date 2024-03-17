@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%@include file="../headerfooter/header.jsp"%>
+	<%@include file="../headerfooter/userheader.jsp"%>
 
 <c:choose>
 <c:when test="${selectiontimeerror != null}">

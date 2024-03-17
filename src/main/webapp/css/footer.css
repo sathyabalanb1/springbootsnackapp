@@ -1,10 +1,2 @@
 @charset "UTF-8";
 
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: teal;
-  color: #fff;
-}

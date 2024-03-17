@@ -1,5 +1,7 @@
 package com.ds.snackapp.controller;
 
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ds.snackapp.dto.DsusersDTO;
 import com.ds.snackapp.entity.Dsusers;
 import com.ds.snackapp.securityconfig.CustomLoginSuccessHandler;
 import com.ds.snackapp.securityconfig.UserDetailService;
@@ -25,6 +28,7 @@ public class RegisterController {
 	@Autowired
 	private DsuserService service;
 	
+	
 	@Autowired
 	private UserDetailService userDetailService;
 	
@@ -32,7 +36,7 @@ public class RegisterController {
 	private CustomLoginSuccessHandler successHandler;
 
 	@PostMapping("/addDsuser") 
-	public void addDsuser(Dsusers dsuser,Model model,HttpServletRequest request,HttpServletResponse response) {
+	public String addDsuser(Dsusers dsuser,Model model,HttpServletRequest request,HttpServletResponse response) {
 		
 		/*
 		String message = service.createDsuser(dsuser);
@@ -50,31 +54,33 @@ public class RegisterController {
 		
 		Dsusers uss = service.createDsuser(dsuser);
 		
-	//	UserDetails userDetails = this.customUserServiceDetails.loadUserByUsername((String) attributes.get("email"));
-		try {
-		UserDetails userDetails = userDetailService.loadUserByUsername(uss.getEmail());
 		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),
-				                        userDetails.getPassword(),userDetails.getAuthorities());
-		
-		if(authentication.isAuthenticated())
-		{		
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        successHandler.onAuthenticationSuccess(request,response,authentication);
-		}	
+		if(uss != null)
+		{
+			try {
+				UserDetails userDetails = userDetailService.loadUserByUsername(uss.getEmail());
+				
+				Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),
+						                        userDetails.getPassword(),userDetails.getAuthorities());
+				
+				if(authentication.isAuthenticated())
+				{	
+		        SecurityContextHolder.getContext().setAuthentication(authentication);
+		        successHandler.onAuthenticationSuccess(request,response,authentication);
+				}	
+				}
+				catch (Exception e) {
+			      //  log.error(e.getMessage(), e);
+					return e.getMessage();
+			    }
 		}
-		catch (Exception e) {
-	      //  log.error(e.getMessage(), e);
-			System.out.println(e.getMessage());
-	    }
-		//	ModelAndView modelAndView = new ModelAndView();
-		//	modelAndView.addObject( "status",createDsuser);
-		//	modelAndView.setViewName("Dsuserregister.jsp");
-		// return modelAndView;
-		//	model.addAttribute("status", createDsuser);
-
-		//	return "Dsuserregister.jsp";
-		return;
+	   else if(uss==null)
+		{
+			model.addAttribute("info",false);
+			return "Dsuserregister.jsp";
+		}
+		return null;
+		
 	}
 	/*
 	@PostMapping("/validUser")
@@ -176,7 +182,36 @@ public class RegisterController {
 
 
 	}
-
+	/*
+	public ModelAndView updateProfile(HttpServletRequest request)
+	{
+		String inputname = request.getParameter("empname");
+		String inputmail = request.getParameter("email");
+		String employeeid = request.getParameter("employeeid");
+		
+		service.editProfile(inputname,inputmail,employeeid);
+		
+		return new ModelAndView("redirect:/common/profile");
+				
+	}
+	*/
+	@PostMapping("/updateprofile")
+	public ModelAndView updateProfile(DsusersDTO dsuser)
+	{
+		Dsusers u = service.editProfile(dsuser);
+		
+		if(u != null)
+		{
+			return new ModelAndView("redirect:/common/profile?status=true");
+		}
+		else
+		{
+			return new ModelAndView("redirect:/common/profile?status=");
+		}
+				
+	}
+	
+	
 
 
 

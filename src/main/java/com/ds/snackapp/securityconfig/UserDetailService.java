@@ -20,11 +20,9 @@ public class UserDetailService implements UserDetailsService {
 	@Autowired
 	private  DsuserRepository userRepo;
 	
-	@Autowired
-	private CommonViewController comControl;
 	
-	@Autowired
-	private RegisterController regCnt;
+	
+	
 	
 	//@Autowired
 	//Model model;
@@ -35,7 +33,7 @@ public class UserDetailService implements UserDetailsService {
 		//HttpSession session;
 		
 		//System.out.println(user.getName());
-		regCnt.forgotPasswordProcess(user.getEmail());
+	//	regCnt.forgotPasswordProcess(user.getEmail());
 		if (user == null) {
 			throw new UsernameNotFoundException("user not found");
 		} else {

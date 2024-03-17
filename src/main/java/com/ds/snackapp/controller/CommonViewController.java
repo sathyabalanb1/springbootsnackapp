@@ -48,6 +48,8 @@ public class CommonViewController {
 		//Dsusers dsu = dsuserservice.fetchUserDetails(uname);
 		
 		ss.setAttribute("empname", dsu.getName());
+		ss.setAttribute("roleid", dsu.getRoleid().getId());
+		ss.setAttribute("currentstatus", "alive");
 	
 	
 	int userid = dsu.getId();
@@ -114,18 +116,46 @@ public class CommonViewController {
 		return "Loginform.jsp";
 	}
 	*/
-	
+	/*
 	@GetMapping("/signin")
-	private String showLoginForm(@RequestParam(required=false) String accountlockerror,Model model) {
-		//@RequestParam(required=false) String error, Model model
-		
+	private String showLoginForm(@RequestParam(required=false) String accountlockerror,Model model,HttpSession sess) {
+				
 		if(accountlockerror != null)
 		{
 		model.addAttribute("lockminutes", accountlockerror);
 		}
 		
-		System.out.println("Now we are displaying signin form");
 		return "Loginform.jsp";
+	}
+	*/
+	@GetMapping("/signin")
+	private ModelAndView showLoginForm(@RequestParam(required=false) String accountlockerror,HttpSession sess) {
+		
+		ModelAndView model = new ModelAndView();
+		
+		if(sess.getAttribute("roleid") != null && accountlockerror == null)
+		{
+		int roleid = (int) sess.getAttribute("roleid");
+		
+		if(roleid == 1 || roleid == 2)
+		{
+			return new ModelAndView("redirect:/admin/snackassignmentform");
+		}
+		else {
+			return new ModelAndView("redirect:/common/snackselectionform");
+		}
+		}				
+		
+		if(accountlockerror != null)
+		{
+		model.addObject("lockminutes", accountlockerror);
+		model.setViewName("Loginform.jsp");
+		return model;
+		//model.addAttribute("lockminutes", accountlockerror);
+		}
+		
+		model.setViewName("Loginform.jsp");
+		return model;
 	}
 	
 	@GetMapping("/invalid")
@@ -250,6 +280,56 @@ public class CommonViewController {
 	{
 		System.out.println("Now we are ready to update password");
 		return "Forgotpassword.jsp";
+	}
+	
+	@GetMapping("/common/editprofile")
+	public ModelAndView displayProfile(@RequestParam(required=false) String status)
+	{
+		
+		ModelAndView model = new ModelAndView();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String uname = authentication.getName();
+		
+		Dsusers dsu = dsuserservice.fetchUserDetails(uname);
+		
+		String empname = dsu.getName();
+		String email = dsu.getEmail();
+		String rolename = dsu.getRoleid().getRolename();
+		int employeeid = dsu.getId();
+		if(status != null)
+		{
+			model.addObject("info", false);
+		}
+		model.addObject("empname", empname);
+		model.addObject("email", email);
+		model.addObject("rolename", rolename);
+		model.addObject("employeeid", employeeid);
+		model.setViewName("/profile/ProfileInfo.jsp");
+		
+		return model;		
+	}
+	
+	@GetMapping("/common/profile")
+	public ModelAndView viewProfile()
+	{
+		ModelAndView model = new ModelAndView();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String uname = authentication.getName();
+		
+		Dsusers dsu = dsuserservice.fetchUserDetails(uname);
+		
+		String empname = dsu.getName();
+		String email = dsu.getEmail();
+		String rolename = dsu.getRoleid().getRolename();
+		int employeeid = dsu.getId();
+		
+		model.addObject("empname", empname);
+		model.addObject("email", email);
+		model.addObject("rolename", rolename);
+		model.addObject("employeeid", employeeid);
+		model.setViewName("/profile/DisplayProfile.jsp");
+		
+		return model;
 	}
 	
 

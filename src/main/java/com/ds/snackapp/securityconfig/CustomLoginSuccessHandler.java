@@ -22,32 +22,30 @@ import com.ds.snackapp.service.DsuserService;
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	@Autowired
-	private DsuserService dsUserService;
+	private DsuserService dsUsrService;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
-		System.out.println("1111111");
 
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		Dsusers user = dsUserService.fetchUserDetails(email);
+		Dsusers user = dsUsrService.fetchUserDetails(email);
 
 		if (user.getFailedAttempt() >= 3) {
 			// super.setTargetUrlParameter("/displayforgotpasswordform");
-			System.out.println("22222");
-			if(!dsUserService.isLockTimeExpired(user))
+			if(!dsUsrService.isLockTimeExpired(user))
 			{
-				long minutes = dsUserService.getRemainingTime(user);
+				long minutes = dsUsrService.getRemainingTime(user);
 				
 				response.sendRedirect("/signin?accountlockerror="+minutes);
+				
 			}
 			else
 			{
 			response.sendRedirect("/displayforgotpasswordform");
 			}
 		} else {
-			System.out.println("33333");
 			for (GrantedAuthority authority : authentication.getAuthorities()) {
 				if (authority.getAuthority().equals("SuperAdmin")) {
 					response.sendRedirect("/admin/snackassignmentform");
@@ -68,7 +66,6 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		int count = user.getFailedAttempt();
 
 		if (count > 0) {
-			String temp = "abcdefghijklmno";
 			return new ModelAndView("redirect:/displayforgotpasswordform");
 		} else {
 			return new ModelAndView();

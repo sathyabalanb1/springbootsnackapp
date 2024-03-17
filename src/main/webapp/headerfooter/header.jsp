@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <%@ page import="javax.servlet.http.HttpSession" %>
 
 <!DOCTYPE html>
@@ -8,7 +10,7 @@
 <head>
 <style type="text/css">
 .navbar{
-justify-content: normal;
+justify-content: space-between;
 }
 </style>
 
@@ -23,19 +25,22 @@ justify-content: normal;
 
     // Retrieve the variable from the session
     String sharedData = (String) sn.getAttribute("empname");
+    
+    String currentstatus = (String) sn.getAttribute("currentstatus");
 %>
 </head>
 <body>
-
+	<c:if test="${currentstatus != null}">
 
 	<security:authorize access="isAuthenticated() and hasAnyAuthority('SuperAdmin','Admin')">
 	
 	<nav class="navbar" style="width:100%;">
 	    <img src="../img/dsquadlogo.png" alt="Dsquad"/>
-	    <span><i class="fa fa-user-alt" style="margin-right:5px;"></i><%= sharedData %></span>	    
-	    <ul class="nav-links" style="padding-left:29%;">
+	    <span style="padding-left:2%;"><i class="fa fa-user-alt" style="margin-right:5px;"></i><%= sharedData %></span>	    
+	    <ul class="nav-links" style="padding-left:18%;">
 	      <div class="menu">
 	        <li><a href="/admin/adminhomepage">Home</a></li>
+	        <li><a href="/common/profile">Profile</a></li>
 	        
 	        <li class="services">
 	        <a href="">Snacks</a>
@@ -74,18 +79,24 @@ justify-content: normal;
 	        
 	
     </security:authorize>
+    </c:if>
+    
+    <c:if test="${currentstatus != null}">
 	<security:authorize access="isAuthenticated() and hasAuthority('User')">
 		<nav class="navbar" style="width:100%;justify-content:normal;">
 	<img src="../img/dsquadlogo.png" alt="Dsquad"/>
 	<span><i class="fa fa-user-alt" style="margin-right:5px;"></i><%= sharedData %></span>
 	<ul class="nav-links" style="padding-left:29%;">
 	<div class="menu">
-		<li><a href="/common/snackselectionform">ChooseSnack</a></li>
-			<li><a href="/logout">Logout</a></li>
+	<li><a href="/common/profile">Profile</a></li>
+	<li><a href="/common/snackselectionform">ChooseSnack</a></li>
+	<li><a href="/logout">Logout</a></li>
 	</div>
 	</ul>
   </nav>
 	</security:authorize>
+	</c:if>
+	
 	<security:authorize access="isAnonymous()">
        	<nav class="navbar">
        	    <img src="../img/dsquadlogo.png" alt="Dsquad"/>
@@ -97,7 +108,20 @@ justify-content: normal;
        </ul>
        </nav>
     </security:authorize>
-		
+    
+    <c:if test="${currentstatus == null}">
+    <security:authorize access="isAuthenticated()">
+    <nav class="navbar">
+       	    <img src="../img/dsquadlogo.png" alt="Dsquad"/>
+       	    <ul class="nav-links">
+       <div class="menu">
+       <li><a href="/registerform">Register</a></li>
+       <li><a href="/signin">Login</a></li>
+       </div>
+       </ul>
+       </nav>
+	</security:authorize>
+	</c:if>	
 	
 
 		

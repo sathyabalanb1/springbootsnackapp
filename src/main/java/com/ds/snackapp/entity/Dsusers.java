@@ -12,13 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import com.ds.snackapp.entity.Role;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "dsusers")
+@Table(name = "dsusers", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Dsusers {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +55,8 @@ public class Dsusers {
          
     @Column(name = "lock_time")
     private Date lockTime;
+    
+    
 
     
     public boolean isAccountNonLocked() {

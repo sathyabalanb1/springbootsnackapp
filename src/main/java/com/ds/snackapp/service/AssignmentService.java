@@ -36,6 +36,12 @@ public class AssignmentService {
 		
 		List<Assignment> ass = assignmentrepository.findByAssigneddate(date);
 		if (ass.size() > 0) {
+			int assignmentid = ass.get(0).getId();
+			Assignment a = assignmentrepository.findById(assignmentid).orElse(null);
+			a.setAssigneddate(date);
+			a.setSnack(snackrepository.getById(assignment.getSnacksId()));
+			a.setVendor(vendorrepository.getById(assignment.getVendorId()));
+			assignmentrepository.save(a);
 			return null;
 		} else {
 			Assignment assign = new Assignment();
@@ -46,6 +52,8 @@ public class AssignmentService {
 			return "Snack is Assigned Successfully";
 		}
 	}
+	
+	
 
 	/*
 	 * public List<Assignment> getAssignments() { List<Assignment>asmts =

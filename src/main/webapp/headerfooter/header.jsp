@@ -83,6 +83,7 @@ justify-content: space-between;
     
     <c:if test="${currentstatus != null}">
 	<security:authorize access="isAuthenticated() and hasAuthority('User')">
+	<%-- 
 		<nav class="navbar" style="width:100%;justify-content:normal;">
 	<img src="../img/dsquadlogo.png" alt="Dsquad"/>
 	<span><i class="fa fa-user-alt" style="margin-right:5px;"></i><%= sharedData %></span>
@@ -94,6 +95,7 @@ justify-content: space-between;
 	</div>
 	</ul>
   </nav>
+  --%>
 	</security:authorize>
 	</c:if>
 	

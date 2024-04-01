@@ -13,10 +13,13 @@
 <body>
 	<%@include file="./headerfooter/header.jsp"%>
 
-	<!--<c:if test="${validuser==true}"><p>You have successfully logged in</p></c:if> -->
-
-	<c:if test="${info==false}">
-		<p>Invalid Login Credentials</p>
+	
+	<c:if test="${badcredential!= null}">
+		<p style="color:red;">Username or Password Seems to be Incorrect</p>
+	</c:if>
+	
+	<c:if test="${loginerror != null}">
+		<p style="color:red;">Password is Incorrect</p>
 	</c:if>
  
 	<c:if test="${param.error!=null}">
@@ -33,9 +36,7 @@
 	<c:if test="${lockminutes != null}">
 		<p style="color: red;">Your Account is Locked Due to 3 Unsuccessful Attempts. Please Login After ${lockminutes} minutes</p>
 	</c:if>
-	<c:if test="${param.loginerror != null}">
-    <p style="color: red;">Invalid Login Credentials abcdefghijklmnopqrstuvwxyz</p>
-    </c:if>
+	
 	
 	<c:if test="${param.logout != null}">
 		<div class="alert alert-success">You have been logged out

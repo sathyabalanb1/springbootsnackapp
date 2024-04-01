@@ -26,7 +26,7 @@
 			<p class="text-success">Snack is Assigned Successfully</p>
 		</c:when>
 		<c:when test="${assignmentinfo == false}">
-			<p class="text-danger">Already Snack is Assigned for Today</p>
+			<p class="text-success">SnackAssignment is Updated Successfully</p>
 		</c:when>
 	</c:choose>
 	<c:if test="${noassignment != null }">

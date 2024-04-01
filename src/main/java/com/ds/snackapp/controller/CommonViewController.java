@@ -8,10 +8,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,11 +48,11 @@ public class CommonViewController {
 
 		
 		//Dsusers dsu = dsuserservice.fetchUserDetails(uname);
-		
+		/*
 		ss.setAttribute("empname", dsu.getName());
 		ss.setAttribute("roleid", dsu.getRoleid().getId());
 		ss.setAttribute("currentstatus", "alive");
-	
+		*/
 	
 	int userid = dsu.getId();
 	
@@ -101,38 +103,42 @@ public class CommonViewController {
 	
 	
 	@GetMapping("/registerform")
-	private String showRegisterForm() {
+	private ModelAndView showRegisterForm() {
 		// TODO Auto-generated method stub
-		//return "hi";
-	//	return "demo.jsp";
-		return "Dsuserregister.jsp";
+		
+		ModelAndView model = new ModelAndView();
+		
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			model.setViewName("Dsuserregister.jsp");
+			return model;
+		}else {
+			if(authentication.getAuthorities().stream().anyMatch(auth ->auth.getAuthority().equals("SuperAdmin")))
+			{
+				return new ModelAndView("redirect:/admin/snackassignmentform");
+			}
+			else if(authentication.getAuthorities().stream().anyMatch(auth ->auth.getAuthority().equals("Admin"))) {
+				return new ModelAndView("redirect:/admin/snackassignmentform");
+			}
+			else if(authentication.getAuthorities().stream().anyMatch(auth ->auth.getAuthority().equals("User"))) {
+				return new ModelAndView("redirect:/common/snackselectionform");
+			}
+				
+		}
+		model.setViewName("Dsuserregister.jsp");
+		return model;
 	}
 	
-	/*
-	@GetMapping("/signin")
-	//@GetMapping("/login")
-	private String showLoginForm() {
-
-		return "Loginform.jsp";
-	}
-	*/
-	/*
-	@GetMapping("/signin")
-	private String showLoginForm(@RequestParam(required=false) String accountlockerror,Model model,HttpSession sess) {
-				
-		if(accountlockerror != null)
-		{
-		model.addAttribute("lockminutes", accountlockerror);
-		}
-		
-		return "Loginform.jsp";
-	}
-	*/
+	
+	/* works fine dated at 21.03.2024
 	@GetMapping("/signin")
 	private ModelAndView showLoginForm(@RequestParam(required=false) String accountlockerror,HttpSession sess) {
 		
 		ModelAndView model = new ModelAndView();
 		
+		
+				
 		if(sess.getAttribute("roleid") != null && accountlockerror == null)
 		{
 		int roleid = (int) sess.getAttribute("roleid");
@@ -157,11 +163,115 @@ public class CommonViewController {
 		model.setViewName("Loginform.jsp");
 		return model;
 	}
+	*/
+	/* Works fine 22.03.2024 display bad credentials InProgress
+	@GetMapping("/signin")
+	private ModelAndView showLoginForm(@RequestParam(required=false) String accountlockerror,@RequestParam(name="badcredential", required=false) String badcredential,HttpSession sess) {
+		
+		ModelAndView model = new ModelAndView();
+		
+		String bc = badcredential;
+		
+		if(badcredential != null)
+		{
+			System.out.println("Bad Credential received");
+			model.addObject("badcredential", "Username or Password Seems to be Incorrect");
+			model.setViewName("Loginform.jsp");
+			return model;
+		}
+		
+				
+		if(sess.getAttribute("roleid") != null && accountlockerror == null)
+		{
+		int roleid = (int) sess.getAttribute("roleid");
+		
+		if(roleid == 1 || roleid == 2)
+		{
+			return new ModelAndView("redirect:/admin/snackassignmentform");
+		}
+		else {
+			return new ModelAndView("redirect:/common/snackselectionform");
+		}
+		}				
+		
+		if(accountlockerror != null)
+		{
+		model.addObject("lockminutes", accountlockerror);
+		model.setViewName("Loginform.jsp");
+		return model;
+		//model.addAttribute("lockminutes", accountlockerror);
+		}
+		
+		model.setViewName("Loginform.jsp");
+		return model;
+	}
+	*/
+	@GetMapping("/signin")
+	@Validated
+	private ModelAndView showLoginForm(@RequestParam(required=false) String accountlockerror,HttpSession sess) {
+		
+		ModelAndView model = new ModelAndView();
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			model.setViewName("Loginform.jsp");
+			return model;
+		}else {
+			if(authentication.getAuthorities().stream().anyMatch(auth ->auth.getAuthority().equals("SuperAdmin")))
+			{
+				return new ModelAndView("redirect:/admin/snackassignmentform");
+			}
+			else if(authentication.getAuthorities().stream().anyMatch(auth ->auth.getAuthority().equals("Admin"))) {
+				return new ModelAndView("redirect:/admin/snackassignmentform");
+			}
+			else if(authentication.getAuthorities().stream().anyMatch(auth ->auth.getAuthority().equals("User"))) {
+				return new ModelAndView("redirect:/common/snackselectionform");
+			}
+				
+		}
+		
+		
+		/*		
+		if(sess.getAttribute("roleid") != null && accountlockerror == null)
+		{
+		int roleid = (int) sess.getAttribute("roleid");
+		
+		if(roleid == 1 || roleid == 2)
+		{
+			return new ModelAndView("redirect:/admin/snackassignmentform");
+		}
+		else {
+			return new ModelAndView("redirect:/common/snackselectionform");
+		}
+		}				
+		*/
+		if(accountlockerror != null)
+		{
+		model.addObject("lockminutes", accountlockerror);
+		model.setViewName("Loginform.jsp");
+		return model;
+		//model.addAttribute("lockminutes", accountlockerror);
+		}
+		
+		model.setViewName("Loginform.jsp");
+		return model;
+	}
 	
 	@GetMapping("/invalid")
-	public String invalid()
+	public String invalid(@RequestParam(name="badcredential", required=false) String badcredential,@RequestParam(name="loginerror", required=false) String loginerror,Model model)
 	{
-		return "Error.jsp";
+		if(loginerror != null)
+		{
+			model.addAttribute("loginerror", loginerror);
+			return "Loginform.jsp";
+		}
+		else
+		{
+		model.addAttribute("badcredential", badcredential);
+		return "Loginform.jsp";
+		}
+		//return "Error.jsp";
 	}
 	
 	@GetMapping("/")
@@ -278,7 +388,6 @@ public class CommonViewController {
 	@GetMapping("/displayforgotpasswordform")
 	public String showForgotPasswordForm(@RequestParam(required=false) boolean forgot)
 	{
-		System.out.println("Now we are ready to update password");
 		return "Forgotpassword.jsp";
 	}
 	
@@ -331,6 +440,7 @@ public class CommonViewController {
 		
 		return model;
 	}
+	
 	
 
 }

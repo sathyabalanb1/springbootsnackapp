@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Assignment;
@@ -105,23 +106,32 @@ public class ViewController {
 	}
 	*/
 	@GetMapping("/admin/snackassignmentform")
-	private ModelAndView showAssignmentForm(ModelAndView model, Principal principal,HttpSession ss) {
+	private ModelAndView showAssignmentForm(ModelAndView model, Principal principal,HttpSession ss, @RequestParam(name="aid",required=false) String assignmentid) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String uname = authentication.getName();
 		
 		Dsusers dsu = userservice.fetchUserDetails(uname);
-		
+		/*
 		ss.setAttribute("empname", dsu.getName());
 		ss.setAttribute("roleid", dsu.getRoleid().getId());
 		ss.setAttribute("currentstatus", "alive");
-				
+		*/		
 		String username = principal.getName();
 		
 		boolean assignmentTime = assignmentservice.checkAssignmentTime();
 		String employeeName = dsu.getName();
 		
+		List<Snack>sns = snackservice.getSnacks();
+		List<Vendor>vns = vendorservice.getVendors();
 		
+		if(assignmentid != null)
+		{
+			model.addObject("snacklist", sns);
+			model.addObject("vendorlist", vns);
+			model.setViewName("/snackassignment/Snackassignmentform.jsp");
+			return model;
+		}
 		
 		List<Assignment> a = assignmentservice.getAssignmentDetails();
 		
@@ -129,7 +139,6 @@ public class ViewController {
 		{
 			Authentication an = SecurityContextHolder.getContext().getAuthentication();
 			String un = authentication.getName();
-			System.out.println("username is" + un);
 			return new ModelAndView("redirect:/admin/adminhomepage");
 
 		}
@@ -147,28 +156,14 @@ public class ViewController {
 			return model;
 		}
 		
-		List<Snack>sns = snackservice.getSnacks();
-		List<Vendor>vns = vendorservice.getVendors();
+		
 		model.addObject("snacklist", sns);
 		model.addObject("vendorlist", vns);
 		model.setViewName("/snackassignment/Snackassignmentform.jsp");
 
 		return model;
 	}
-	/*
-	@GetMapping("/assignmentupdateform")
-	public String showAssignmentUpdateForm(@RequestParam("aid") int assignmentid, Model model,Principal principal)
-	{	
-		String snackname = assignmentservice.getAssignmentById(assignmentid);
-		List<Snack>sns = snackservice.getSnacks();
-		List<Vendor>vns = vendorservice.getVendors();
-		model.addAttribute("snackname", snackname);
-		model.addAttribute("snacklist", sns);
-		model.addAttribute("vendorlist",vns);
-		model.addAttribute("assignmentid", assignmentid);
-		return "snackassignment/Updatesnackassignmentform.jsp";
-	}
-	*/
+	
 	@GetMapping("/assignmentupdateform")
 	public ModelAndView showAssignmentUpdateForm(@RequestParam("aid") int assignmentid, Principal principal)
 	{	
@@ -265,6 +260,14 @@ public class ViewController {
 	public String showSelectionReportform()
 	{
 		return "/report/Reportform.jsp";
+	}
+	
+	@GetMapping("/admin/testing")
+	@ResponseBody
+	public String testingReportform(Principal pp)
+	{
+		System.out.println(pp.getName());
+		return pp.getName();
 	}
 	
 	

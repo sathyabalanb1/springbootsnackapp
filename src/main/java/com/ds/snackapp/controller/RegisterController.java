@@ -4,10 +4,12 @@ package com.ds.snackapp.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -36,7 +38,12 @@ public class RegisterController {
 	private CustomLoginSuccessHandler successHandler;
 
 	@PostMapping("/addDsuser") 
-	public String addDsuser(Dsusers dsuser,Model model,HttpServletRequest request,HttpServletResponse response) {
+	public String addDsuser(Dsusers dsuser,Model model,HttpServletRequest request,HttpServletResponse response, HttpSession httpSession) {
+//		SecurityContext securityContext = (SecurityContext) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+//		Authentication authentication = securityContext.getAuthentication();
+//		Object object = authentication.getPrincipal().getClass().getName();
+		
+	//	SecurityContext securityContext = SecurityContextHolder.getContext();
 		
 		/*
 		String message = service.createDsuser(dsuser);
@@ -141,7 +148,6 @@ public class RegisterController {
 					long balanceMinutes = service.getRemainingTime(user);
 
 					model.addAttribute("balanceminutes", balanceMinutes);
-					System.out.println(balanceMinutes);
 					return "Forgotpassword.jsp";
 				}
 			}
@@ -159,7 +165,6 @@ public class RegisterController {
 	public String resetPasswordProcess(@RequestParam("newpassword") String newpassword, @RequestParam("oldpassword") String oldpassword,
 			@RequestParam("email") String email,Model model)
 	{
-		System.out.println("abcdefghijklmnopq");
 		boolean validpassword = newpassword.equals(oldpassword);
 
 		if(validpassword == true)
@@ -169,7 +174,6 @@ public class RegisterController {
 		}
 
 		//int employeeid = empid;
-		System.out.println("zxywvsisis");
 		Dsusers user = service.fetchUserDetails(email);
 		
 		if(user.getLockTime() != null)

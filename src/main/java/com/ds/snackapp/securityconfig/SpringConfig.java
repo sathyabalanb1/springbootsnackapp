@@ -69,7 +69,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeHttpRequests()
 				.antMatchers("/", "/registerform", "/addDsuser", "/img/**", "/javascriptfiles/**", "/headerfooter/**",
-						"/css/**", "/logoutpage", "/displayforgotpasswordform", "/forgotpassword", "/resetpassword","/login")
+						"/css/**", "/logoutpage", "/displayforgotpasswordform", "/forgotpassword", "/resetpassword","/login","/invalid","/signin/*")
 				.permitAll()
 				.antMatchers("/admin/**", "/name").hasAnyAuthority("SuperAdmin", "Admin")
 				.antMatchers("/common/**", "/name").hasAnyAuthority("SuperAdmin", "User", "Admin").anyRequest()
@@ -78,11 +78,10 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
 				.formLogin()
 				.loginPage("/signin")
 				.loginProcessingUrl("/login")
-				.usernameParameter("username")
-				.failureHandler(loginFailureHandler)
+				.failureHandler(loginFailureHandler).permitAll()
 				.successHandler(loginSuccessHandler).permitAll()
 				// .failureUrl("/invalid").permitAll()
-				.and().logout().logoutSuccessUrl("/logoutpage").invalidateHttpSession(true).clearAuthentication(true)
+				.and().logout().logoutSuccessUrl("/signin").invalidateHttpSession(true).clearAuthentication(true)
 				.permitAll();
 	}
 	@Autowired
@@ -90,6 +89,9 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private CustomLoginSuccessHandler loginSuccessHandler;
+	
+//	.usernameParameter("username") This method is for in memory authentication
+
 
 	/*
 	 * Works fine login and logout

@@ -42,7 +42,7 @@
 		            <td><a href="/assignmentupdateform?aid=${temp.id}" style="pointer-events: none;color:black;">Edit</a></td>
 				    </c:when>
 					<c:otherwise>
-						<td><a href="/assignmentupdateform?aid=${temp.id}">Edit</a></td>
+						<td><a href="/admin/snackassignmentform?aid=${temp.id}">Edit</a></td>
                     </c:otherwise>
 	                </c:choose>
 	                

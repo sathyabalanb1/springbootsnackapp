@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ds.snackapp.entity.Dsusers;
-import com.ds.snackapp.principle.UserPrinciple;
 import com.ds.snackapp.service.DsuserService;
 
 @Component
@@ -28,7 +28,8 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
-
+		HttpSession sess = request.getSession();
+	//	HttpSession sess; when i declare like this it shows error "local variable sess not have been initialized"
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		Dsusers user = dsUsrService.fetchUserDetails(email);
 
@@ -46,6 +47,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			response.sendRedirect("/displayforgotpasswordform");
 			}
 		} else {
+			sess.setAttribute("empname", user.getName());
+			sess.setAttribute("currentstatus", "alive");
+
 			for (GrantedAuthority authority : authentication.getAuthorities()) {
 				if (authority.getAuthority().equals("SuperAdmin")) {
 					response.sendRedirect("/admin/snackassignmentform");
